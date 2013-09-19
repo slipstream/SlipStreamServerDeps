@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.sixsq.slipstream</groupId>
+  <artifactId>SlipStreamServerDeps</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <name>SlipStream Server Dependencies</name>
+  <description>Packaging of SlipStream Server dependencies</description>
+
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>com.sixsq.slipstream</groupId>
+    <artifactId>SlipStream</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
+
+  <modules>
+    <module>hsqldb</module>
+    <module>libcloud</module>
+    <module>stratuslab</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>build-backup-rpm</id>
+      <activation>
+        <file>
+          <exists>/usr/bin/rpmbuild</exists>
+        </file>
+      </activation>
+      <modules>
+        <module>backup</module>
+      </modules>
+    </profile>
+  </profiles>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com/SixSq/SlipStreamServerDeps.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/SixSq/SlipStreamServerDeps.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+</project>

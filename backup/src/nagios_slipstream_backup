@@ -1,0 +1,48 @@
+#!/bin/bash
+
+NAGIOS_OK=0
+NAGIOS_CRITICAL=2
+
+CONFIG=/etc/slipstream/slipstream-backup.conf
+
+source $CONFIG
+
+if [ -z "${AMAZON_BUCKET}" ]; then
+    echo "CRITICAL: Define Amazon S3 bucket in $CONFIG."
+    exit $NAGIOS_CRITICAL
+fi
+if [ -z "${SS_HOSTNAME}" ]; then
+    echo "CRITICAL: Define the host IP/hostname in $CONFIG."
+    exit $NAGIOS_CRITICAL
+fi
+
+BUNDLE_NAME=slipstream.backup.${SS_HOSTNAME}.$(date --utc "+%Y-%m-%dT%H%MZ")
+BUNDLE=/tmp/$BUNDLE_NAME
+
+SS_DB=/opt/slipstream/SlipStreamDB/
+SS_CONF=$(find /opt/slipstream/server -name "default.config.properties" -o -name slipstream.xml)
+SS_REPORTS=/var/tmp/slipstream/reports/
+
+cleanup() {
+    sudo /bin/rm -f $BUNDLE
+}
+
+trap cleanup EXIT
+
+n="
+"
+output=$(sudo /usr/bin/gpg-zip --encrypt --gpg-args "--yes --trust-model always -r SixSq" --output $BUNDLE $SS_DB ${SS_CONF#$n} $SS_REPORTS 2>&1)
+if [ "$?" -ne "0" ]; then
+    echo -e "CRITICAL: Failed to gpg-zip backup.\n$output"
+    exit $NAGIOS_CRITICAL
+fi
+
+BACKUP=$AMAZON_BUCKET/$BUNDLE_NAME
+output=$(sudo /opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE -- $BACKUP 2>&1)
+if [ "$?" -eq "0" ]; then
+    echo -e "OK: SlipStream Backup Successful.\n$BACKUP"
+    exit $NAGIOS_OK
+else
+    echo -e "CRITICAL: Failed to upload to S3.\n$output"
+    exit $NAGIOS_CRITICAL
+fi

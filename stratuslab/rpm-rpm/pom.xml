@@ -1,0 +1,203 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>StratusLab-SixSq-rpm-rpm</artifactId>
+  <name>StratusLab RPM distributed by SixSq</name>
+
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>com.sixsq.slipstream</groupId>
+    <artifactId>stratuslab-slipstream-packaging</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+
+        <executions>
+          <execution>
+            <id>unpack-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>eu.stratuslab.client</groupId>
+                  <artifactId>stratuslab-cli-user-rpm</artifactId>
+                  <version>${stratuslab.version.rpm}</version>
+                  <type>rpm</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>eu.stratuslab.client</groupId>
+                  <artifactId>stratuslab-api-rpm</artifactId>
+                  <version>${stratuslab.version.rpm.api}</version>
+                  <type>rpm</type>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>eu.stratuslab.client</groupId>
+                  <artifactId>stratuslab-api-externals-rpm</artifactId>
+                  <version>${stratuslab.version.rpm.api.externals}</version>
+                  <type>rpm</type>
+                </artifactItem>
+              </artifactItems>
+              <stripVersion>true</stripVersion>
+            </configuration>
+          </execution>
+        </executions>
+
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+  <profiles>
+    <profile>
+      <id>nexus-yum-repo-gen-snapshots</id>
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>upload-cli-rpm</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>deploy-file</goal>
+                </goals>
+                <configuration>
+                  <file>${project.build.directory}/stratuslab-cli-user-rpm.rpm</file>
+                  <repositoryId>sixsq.snapshots</repositoryId>
+                  <url>http://ci.sixsq.com:8080/nexus/content/repositories/snapshots</url>
+                  <groupId>eu.stratuslab.client</groupId>
+                  <artifactId>stratuslab-cli-user-rpm</artifactId>
+                  <version>${project.version}</version>
+                </configuration>
+              </execution>
+              <execution>
+                <id>upload-api-rpm</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>deploy-file</goal>
+                </goals>
+                <configuration>
+                  <file>${project.build.directory}/stratuslab-api-rpm.rpm</file>
+                  <repositoryId>sixsq.snapshots</repositoryId>
+                  <url>http://ci.sixsq.com:8080/nexus/content/repositories/snapshots</url>
+                  <groupId>eu.stratuslab.client</groupId>
+                  <artifactId>stratuslab-api-rpm</artifactId>
+                  <version>${project.version}</version>
+                </configuration>
+              </execution>
+              <execution>
+                <id>upload-api-externals-rpm</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>deploy-file</goal>
+                </goals>
+                <configuration>
+                  <file>${project.build.directory}/stratuslab-api-externals-rpm.rpm</file>
+                  <repositoryId>sixsq.snapshots</repositoryId>
+                  <url>http://ci.sixsq.com:8080/nexus/content/repositories/snapshots</url>
+                  <groupId>eu.stratuslab.client</groupId>
+                  <artifactId>stratuslab-api-externals-rpm</artifactId>
+                  <version>${project.version}</version>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nexus-yum-repo-gen-snapshots</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>curl</executable>
+                  <arguments>
+                    <argument>-sSf</argument>
+                    <argument>-u</argument>
+                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
+                    <argument>${nexus.yum.repo.gen.snapshots.uri}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>nexus-yum-repo-gen-releases</id>
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>upload-rpm</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>deploy-file</goal>
+                </goals>
+                <configuration>
+                  <file>${project.build.directory}/stratuslab-cli-user-rpm.rpm</file>
+                  <repositoryId>sixsq.releases</repositoryId>
+                  <url>http://ci.sixsq.com:8080/nexus/content/repositories/releases</url>
+                  <groupId>eu.stratuslab.client</groupId>
+                  <artifactId>stratuslab-cli-user-rpm</artifactId>
+                  <version>${project.version}</version>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nexus-yum-repo-gen-releases</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>curl</executable>
+                  <arguments>
+                    <argument>-sSf</argument>
+                    <argument>-u</argument>
+                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
+                    <argument>${nexus.yum.repo.gen.releases.uri}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

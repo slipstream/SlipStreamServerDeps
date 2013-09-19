@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>Hsqldb-SixSq-bundle</artifactId>
+	<name>HyperSQL packaged by SixSq (ZIP)</name>
+
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.sixsq.slipstream</groupId>
+		<artifactId>Hsqldb-SixSq-packaging</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>mkdir-targets</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>mkdir</executable>
+							<arguments>
+								<argument>-p</argument>
+								<argument>${project.build.directory}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>get-hsqldb</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>curl</executable>
+							<arguments>
+								<argument>-sSf</argument>
+								<argument>-o</argument>
+								<argument>${project.build.directory}/hsqldb-${hsqldb.version}.zip</argument>
+								<argument>http://switch.dl.sourceforge.net/project/hsqldb/hsqldb/hsqldb_2_2/hsqldb-${hsqldb.version}.zip</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-hsqldb</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+						  <workingDirectory>${project.build.directory}</workingDirectory>
+							<executable>unzip</executable>
+							<arguments>
+								<argument>-q</argument>
+								<argument>hsqldb-${hsqldb.version}.zip</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+
+        <executions>
+
+          <execution>
+            <id>hsqldb-bundle</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>bundle.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+
+        </executions>
+
+      </plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

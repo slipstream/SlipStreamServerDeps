@@ -1,0 +1,245 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>Hsqldb-SixSq-rpm</artifactId>
+	<name>HyperSQL packaged by SixSq (RPM)</name>
+
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.sixsq.slipstream</groupId>
+		<artifactId>Hsqldb-SixSq-packaging</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.sixsq.slipstream</groupId>
+			<artifactId>Hsqldb-SixSq-bundle</artifactId>
+			<version>${project.version}</version>
+			<type>tar.gz</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+
+				<executions>
+					<execution>
+						<id>unpack-hsqldb</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.sixsq.slipstream</groupId>
+									<artifactId>Hsqldb-SixSq-bundle</artifactId>
+									<type>tar.gz</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>update-initd</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>sed</executable>
+							<arguments>
+								<argument>-i</argument>
+								<argument>-e</argument>
+								<argument>s/^MAX_START_SECS=.*$/MAX_START_SECS=15/;s/#chkconfig:.*/# chkconfig: 36 70 35/</argument>
+								<argument>${project.build.directory}/hsqldb/sample/hsqldb.init</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<classifier>${package.os}</classifier>
+					<release>${BUILD_NUMBER}.${package.os}</release>
+					<summary>HyperSQL ${hsqldb.version} configured for SlipStream server</summary>
+					<name>hsqldb-slipstream</name>
+					<group>Applications/Engineering</group>
+					<vendor>SixSq</vendor>
+					<packager>SixSq</packager>
+					<copyright>Apache License, Version 2.0</copyright>
+					<url>http://sixsq.com</url>
+					<needarch>noarch</needarch>
+					<description>HyperSQL configured for SlipStream server</description>
+					<requires>
+						<require>java-1.6.0-openjdk</require>
+					</requires>
+					<mappings>
+
+						<mapping>
+							<directory>/opt/hsqldb</directory>
+							<filemode>644</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<directoryIncluded>false</directoryIncluded>
+							<sources>
+								<source>
+									<location>${project.build.directory}/hsqldb</location>
+								</source>
+							</sources>
+						</mapping>
+
+						<mapping>
+							<directory>/etc/rc.d/init.d/</directory>
+							<filemode>755</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<directoryIncluded>false</directoryIncluded>
+							<sources>
+								<source>
+									<location>${project.build.directory}/hsqldb/sample/hsqldb.init</location>
+									<destination>hsqldb</destination>
+								</source>
+							</sources>
+						</mapping>
+
+						<mapping>
+							<directory>/opt/hsqldb/data</directory>
+							<filemode>644</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<directoryIncluded>false</directoryIncluded>
+							<sources>
+								<source>
+									<location>src/data/server.properties</location>
+								</source>
+							</sources>
+						</mapping>
+
+						<mapping>
+							<directory>/opt/slipstream/SlipStreamDB</directory>
+							<filemode>755</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+						</mapping>
+
+						<mapping>
+							<directory>/etc</directory>
+							<filemode>644</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<directoryIncluded>false</directoryIncluded>
+							<sources>
+								<source>
+									<location>src/etc/hsqldb.cfg</location>
+								</source>
+							</sources>
+						</mapping>
+
+					</mappings>
+					<postinstallScriptlet>
+						<script>
+/sbin/chkconfig --add hsqldb
+            </script>
+					</postinstallScriptlet>
+
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>attach-rpm</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attached-rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+  <profiles>
+    <profile>
+      <id>nexus-yum-repo-gen-snapshots</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nexus-yum-repo-gen-snapshots</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>curl</executable>
+                  <arguments>
+                    <argument>-sSf</argument>
+                    <argument>-u</argument>
+                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
+                    <argument>${nexus.yum.repo.gen.snapshots.uri}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>nexus-yum-repo-gen-releases</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nexus-yum-repo-gen-releases</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>curl</executable>
+                  <arguments>
+                    <argument>-sSf</argument>
+                    <argument>-u</argument>
+                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
+                    <argument>${nexus.yum.repo.gen.releases.uri}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

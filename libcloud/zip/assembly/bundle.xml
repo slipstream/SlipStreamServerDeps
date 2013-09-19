@@ -1,0 +1,26 @@
+<assembly>
+  <id>bundle</id>
+
+  <includeBaseDirectory>false</includeBaseDirectory>
+  
+  <formats>
+    <format>zip</format>
+    <format>tar.gz</format>
+  </formats>
+  
+  <fileSets>
+
+    <fileSet>
+      <directory>${project.build.directory}/libcloud</directory>
+      <directoryMode>755</directoryMode>
+      <fileMode>644</fileMode>
+      <outputDirectory>libcloud</outputDirectory>
+      <excludes>
+        <exclude>test/**/*</exclude>
+        <exclude>**/*.pyc</exclude>
+      </excludes>
+    </fileSet>
+    
+  </fileSets>
+  
+</assembly>

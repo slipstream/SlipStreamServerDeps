@@ -1,0 +1,1 @@
+#00 */4 * * * root (date --utc; /opt/slipstream/backup/slipstream-backup.sh) >> /opt/slipstream/backup/slipstream-backup.log 2>&1

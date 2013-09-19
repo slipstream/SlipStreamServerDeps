@@ -1,0 +1,2 @@
+nrpe ALL = NOPASSWD: /usr/bin/gpg-zip, /opt/slipstream/backup/s3curl.pl, /bin/rm
+Defaults:nrpe !requiretty

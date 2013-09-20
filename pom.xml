@@ -36,8 +36,8 @@
   </profiles>
 
   <scm>
-    <connection>scm:git:ssh://git@github.com/SixSq/SlipStreamServerDeps.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/SixSq/SlipStreamServerDeps.git</developerConnection>
+    <connection>scm:git:ssh://git@github.com/slipstream/SlipStreamServerDeps.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/slipstream/SlipStreamServerDeps.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 

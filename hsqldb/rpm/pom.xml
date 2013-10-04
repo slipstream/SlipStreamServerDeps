@@ -91,7 +91,7 @@
 					<needarch>noarch</needarch>
 					<description>HyperSQL configured for SlipStream server</description>
 					<requires>
-						<require>java-1.6.0-openjdk</require>
+						<require>java-1.7.0-openjdk</require>
 					</requires>
 					<mappings>
 

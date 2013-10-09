@@ -3,7 +3,6 @@
 
   <artifactId>Libcloud-SixSq-pom</artifactId>
   <name>libcloud patched and packaged by SixSq (POM)</name>
-  <version>2.0.4-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 

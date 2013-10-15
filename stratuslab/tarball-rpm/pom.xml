@@ -71,16 +71,14 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <workingDirectory>${project.build.directory}/stratuslab/lib/stratuslab/</workingDirectory>
+              <workingDirectory>${project.build.directory}/stratuslab/lib/stratuslab/python</workingDirectory>
               <executable>tar</executable>
               <arguments>
                 <argument>-zcf</argument>
                 <argument>${project.build.directory}/stratuslabclient.tgz</argument>
-                <argument>--transform</argument>
-                <argument>s/^python\///g</argument>
                 <argument>--exclude</argument>
                 <argument>unittest2</argument>
-                <argument>python/</argument>
+                <argument>.</argument>
               </arguments>
             </configuration>
           </execution>

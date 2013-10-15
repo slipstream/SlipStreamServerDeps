@@ -33,7 +33,7 @@
 								<artifactItem>
 									<groupId>eu.stratuslab.client</groupId>
 									<artifactId>stratuslab-cli-user-pkg</artifactId>
-                  <version>${stratuslab.version.zip}</version>
+										<version>${stratuslab.version.zip}</version>
 									<type>tar.gz</type>
 								</artifactItem>
 							</artifactItems>

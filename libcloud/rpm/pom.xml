@@ -24,7 +24,7 @@
           <execution>
             <id>get-libcloud</id>
             <goals>
-              <goal>copy</goal>
+              <goal>unpack</goal>
             </goals>
             <configuration>
               <artifactItems>
@@ -36,6 +36,30 @@
                   <classifier>bundle</classifier>
                 </artifactItem>
               </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>regenerate-tarball</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>tar</executable>
+              <arguments>
+                <argument>-zcf</argument>
+                <argument>${project.build.directory}/libcloud.tgz</argument>
+                <argument>-C</argument>
+                <argument>${project.build.directory}/dependency</argument>
+                <argument>libcloud</argument>
+              </arguments>
             </configuration>
           </execution>
         </executions>
@@ -66,8 +90,7 @@
               <directoryIncluded>false</directoryIncluded>
               <sources>
                 <source>
-                  <location>${project.build.directory}/dependency/Libcloud-SixSq-zip-${project.version}-bundle.tar.gz</location>
-                  <destination>libcloud.tgz</destination>
+                  <location>${project.build.directory}/libcloud.tgz</location>
                 </source>
               </sources>
             </mapping>

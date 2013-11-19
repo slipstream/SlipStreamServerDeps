@@ -44,7 +44,7 @@
 						SlipStream Server Backup.
           </description>
 					<requires>
-						<require>gnupg</require>
+						<require>gnupg2</require>
 						<require>curl</require>
 						<require>perl-Digest-HMAC</require>
 						<require>sudo</require>

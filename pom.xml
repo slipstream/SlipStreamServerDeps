@@ -20,6 +20,7 @@
     <module>hsqldb</module>
     <module>libcloud</module>
     <module>stratuslab</module>
+    <module>nginxconf</module>
   </modules>
 
   <profiles>

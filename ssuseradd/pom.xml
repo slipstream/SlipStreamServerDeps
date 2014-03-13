@@ -49,6 +49,7 @@
              <script>
 /usr/bin/getent group slipstream || /usr/sbin/groupadd -r slipstream
 /usr/bin/getent passwd slipstream || /usr/sbin/useradd -r -d ${installation.dir} -g slipstream slipstream
+[ ! -f ${installation.dir}/.ssh/id_rsa ] &amp;&amp; { ssh-keygen -q -f ${installation.dir}/.ssh/id_rsa -N ""; }
              </script>
          </preinstallScriptlet>
 

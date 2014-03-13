@@ -21,6 +21,7 @@
     <module>libcloud</module>
     <module>stratuslab</module>
     <module>nginxconf</module>
+    <module>ssuseradd</module>
   </modules>
 
   <profiles>

@@ -48,14 +48,15 @@
 						<require>curl</require>
 						<require>perl-Digest-HMAC</require>
 						<require>sudo</require>
+            <require>slipstream-useradd</require>
 					</requires>
 					<mappings>
 
 						<mapping>
 							<directory>${installation.dir}</directory>
-							<filemode>755</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<filemode>775</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
@@ -69,9 +70,9 @@
 
 						<mapping>
 							<directory>${installation.dir}</directory>
-							<filemode>755</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<filemode>775</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
@@ -88,9 +89,9 @@
 
 						<mapping>
 							<directory>${installation.dir}</directory>
-							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<filemode>664</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
@@ -105,8 +106,8 @@
 						<mapping>
 							<directory>${installation.dir}</directory>
 							<filemode>400</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
@@ -120,9 +121,9 @@
 
 						<mapping>
 							<directory>/etc/slipstream</directory>
-							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<filemode>664</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<configuration>noreplace</configuration>
 							<sources>
@@ -137,9 +138,9 @@
 
 						<mapping>
 							<directory>/etc/cron.d</directory>
-							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<filemode>664</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>

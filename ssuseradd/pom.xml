@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>slipstream-useradd</artifactId>
+	<name>SlipStream user (RPM)</name>
+
+	<packaging>pom</packaging>
+
+	<parent>
+		<artifactId>SlipStreamServerDeps</artifactId>
+		<groupId>com.sixsq.slipstream</groupId>
+		<version>2.1.6-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<package.os>el6</package.os>
+	</properties>
+
+	<dependencies>
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<classifier>${package.os}</classifier>
+					<release>${BUILD_NUMBER}.${package.os}</release>
+					<summary>SlipStream user creation</summary>
+					<name>slipstream-useradd</name>
+					<group>Applications/Engineering</group>
+					<vendor>SixSq</vendor>
+					<packager>SixSq</packager>
+					<copyright>Apache License, Version 2.0</copyright>
+					<url>http://sixsq.com</url>
+					<needarch>noarch</needarch>
+					<description>
+						Create new user for SlipStream.
+          </description>
+
+
+         <mappings></mappings>
+
+         <preinstallScriptlet>
+             <script>
+/usr/bin/getent group slipstream || /usr/sbin/groupadd -r slipstream
+/usr/bin/getent passwd slipstream || /usr/sbin/useradd -r -d ${installation.dir} -g slipstream slipstream
+             </script>
+         </preinstallScriptlet>
+
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>attach-rpm</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attached-rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+  <profiles>
+    <profile>
+      <id>nexus-yum-repo-gen-snapshots</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nexus-yum-repo-gen-snapshots</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>curl</executable>
+                  <arguments>
+                    <argument>-sSf</argument>
+                    <argument>-u</argument>
+                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
+                    <argument>${nexus.yum.repo.gen.snapshots.uri}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>nexus-yum-repo-gen-releases</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>nexus-yum-repo-gen-releases</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>curl</executable>
+                  <arguments>
+                    <argument>-sSf</argument>
+                    <argument>-u</argument>
+                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
+                    <argument>${nexus.yum.repo.gen.releases.uri}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

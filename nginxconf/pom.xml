@@ -66,12 +66,6 @@
 
 					</mappings>
 
-         <preinstallScriptlet>
-             <script>
-/sbin/service nginx start
-             </script>
-         </preinstallScriptlet>
-
 				</configuration>
 
 				<executions>

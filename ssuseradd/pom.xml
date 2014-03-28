@@ -47,7 +47,7 @@
 
          <preinstallScriptlet>
              <script>
-/bin/chmod -R 664 /opt/slipstream/server/webapps/slipstream.war/static-content/
+/bin/ chmod -R 775 /opt/slipstream/server/webapps/slipstream.war/static-content/
 /usr/bin/getent group slipstream || /usr/sbin/groupadd -r slipstream
 /usr/bin/getent passwd slipstream || /usr/sbin/useradd -r -d ${installation.dir} -g slipstream slipstream
 if [ ! -f /opt/slipstream/server/.ssh/id_rsa ]

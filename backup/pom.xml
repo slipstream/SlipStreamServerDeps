@@ -140,9 +140,9 @@
 
 						<mapping>
 							<directory>/etc/cron.d</directory>
-							<filemode>664</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
+							<filemode>644</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>

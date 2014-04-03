@@ -83,7 +83,6 @@
 										<include>slipstream-restore-from-backup.sh</include>
 										<include>nagios_slipstream_backup</include>
 										<include>slipstream-backup-db-anonymized.sh</include>
-										<include>anonymize.sql</include>
 									</includes>
 								</source>
 							</sources>
@@ -100,6 +99,7 @@
 									<location>src/</location>
 									<includes>
 										<include>s3curl.cfg.tpl</include>
+										<include>anonymize.sql</include>
 									</includes>
 								</source>
 							</sources>

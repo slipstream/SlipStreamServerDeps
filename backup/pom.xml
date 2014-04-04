@@ -183,7 +183,7 @@
 
           <postinstallScriptlet>
             <script>
-/usr/bin/gpg --yes --import ${installation.dir}/sixsq-pub-gpg.asc
+/bin/su slipstream -c '/usr/bin/gpg --yes --import ${installation.dir}/sixsq-pub-gpg.asc'
             </script>
           </postinstallScriptlet>
 

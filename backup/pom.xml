@@ -57,6 +57,14 @@
 							<filemode>775</filemode>
 							<username>slipstream</username>
 							<groupname>slipstream</groupname>
+							<directoryIncluded>true</directoryIncluded>
+						</mapping>
+
+						<mapping>
+							<directory>${installation.dir}</directory>
+							<filemode>775</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>

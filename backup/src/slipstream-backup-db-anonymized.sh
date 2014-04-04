@@ -19,17 +19,10 @@ BUNDLE_NAME="slipstream.backup.anonymized.${SS_HOSTNAME}.${TIMESTAMP}"
 BUNDLE=/tmp/$BUNDLE_NAME
 
 mkdir $BUNDLE
-cd $BUNDLE
+cd $BUNDLE || exit 1
 cp -R $DB_PATH/* .
 
-java -cp $HSQLDB_PATH org.hsqldb.server.Server --database.0 file:slipstreamdb --dbname.0 slipstream_ano --address 127.0.0.1 --port 9999 &
-DB_PID=$!
-
-java -cp $HSQLDB_PATH -jar $SQLTOOL_PATH --inlineRc=url=jdbc:hsqldb:hsql://localhost:9999/slipstream_ano,user=sa,password= --autoCommit $SQL_ANONYMIZE_FILE || echo 'Error during anonymization'
-
-kill $DB_PID
-sleep 5
-kill -9 $DB_PID 2>/dev/null || true
+java -jar $SQLTOOL_PATH --inlineRc=url=jdbc:hsqldb:file:slipstreamdb,user=sa,password= --autoCommit $SQL_ANONYMIZE_FILE || echo 'Error during anonymization'
 
 tar czf ${BUNDLE}.tgz ${BUNDLE}/*
 

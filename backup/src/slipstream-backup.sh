@@ -1,5 +1,9 @@
 #!/bin/bash
 
+export LANG=en_US.utf8
+
+set -e
+
 CONFIG=/etc/slipstream/slipstream-backup.conf
 
 source $CONFIG

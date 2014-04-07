@@ -1,5 +1,9 @@
 #!/bin/bash
 
+export LANG=en_US.utf8
+
+set -e
+
 DB_PATH='/opt/slipstream/SlipStreamDB/'
 CONFIG='/etc/slipstream/slipstream-backup.conf'
 SQL_ANONYMIZE_FILE='/opt/slipstream/backup/anonymize.sql'
@@ -10,19 +14,18 @@ SQLTOOL_PATH='/opt/hsqldb/lib/sqltool.jar'
 source $CONFIG
 
 AMAZON_BUCKET=${AMAZON_BUCKET_ANONYMIZED:?"Define Amazon S3 anonymize bucket in $CONFIG."}
-SS_HOSTNAME=${SS_HOSTNAME:?"Define the host IP/hostname in $CONFIG."}
 
-LANG=en_US.utf8
-TIMESTAMP=`date --utc "+%Y-%m-%dT%H%MZ"`
-CUR_DIR=`pwd`
-BUNDLE_NAME="slipstream.backup.anonymized.${SS_HOSTNAME}.${TIMESTAMP}"
+SSVERSION=$(rmp -q slipstream-server --qf '%{version}')
+
+BUNDLE_NAME="slipstream.backup.anonymized.${SSVERSION}"
 BUNDLE=/tmp/$BUNDLE_NAME
 
-mkdir $BUNDLE
-cd $BUNDLE || exit 1
+mkdir -p $BUNDLE
+pushd $BUNDLE || exit 1
 cp -R $DB_PATH/* .
 
-java -jar $SQLTOOL_PATH --inlineRc=url=jdbc:hsqldb:file:slipstreamdb,user=sa,password= --autoCommit $SQL_ANONYMIZE_FILE || echo 'Error during anonymization'
+java -jar $SQLTOOL_PATH --inlineRc=url=jdbc:hsqldb:file:slipstreamdb,user=sa,password= \
+    --autoCommit $SQL_ANONYMIZE_FILE || { echo 'Error during DB anonymization'; exit 1; }
 
 tar czf ${BUNDLE}.tgz ${BUNDLE}/*
 
@@ -33,7 +36,7 @@ output=$(/opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE.tgz -- $BACKU
     echo "SlipStream Anonymized Backup Successful. $BACKUP" || \
     echo "FAILURE $BACKUP: $output"
 
-cd $CUR_DIR
+popd
 
 rm -Rf $BUNDLE $BUNDLE.tgz
 

@@ -15,10 +15,12 @@ source $CONFIG
 
 AMAZON_BUCKET=${AMAZON_BUCKET_ANONYMIZED:?"Define Amazon S3 anonymize bucket in $CONFIG."}
 
-SSVERSION=$(rmp -q slipstream-server --qf '%{version}')
+SSVERSION=$(rpm -q slipstream-server --qf '%{version}')
 
 BUNDLE_NAME="slipstream.backup.anonymized.${SSVERSION}"
 BUNDLE=/tmp/$BUNDLE_NAME
+
+trap "rm -Rf $BUNDLE $BUNDLE.tgz" EXIT
 
 mkdir -p $BUNDLE
 pushd $BUNDLE || exit 1
@@ -38,7 +40,4 @@ output=$(/opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE.tgz -- $BACKU
 
 popd
 
-rm -Rf $BUNDLE $BUNDLE.tgz
-
 exit 0
-

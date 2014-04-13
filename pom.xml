@@ -20,13 +20,11 @@
     <module>hsqldb</module>
     <module>libcloud</module>
     <module>stratuslab</module>
-    <module>nginxconf</module>
-    <module>ssuseradd</module>
   </modules>
 
   <profiles>
     <profile>
-      <id>build-backup-rpm</id>
+      <id>build-rpms</id>
       <activation>
         <file>
           <exists>/usr/bin/rpmbuild</exists>
@@ -34,6 +32,8 @@
       </activation>
       <modules>
         <module>backup</module>
+        <module>nginxconf</module>
+        <module>ssuseradd</module>
       </modules>
     </profile>
   </profiles>

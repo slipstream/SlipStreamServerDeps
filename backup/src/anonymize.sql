@@ -1,7 +1,8 @@
-
 DELETE FROM USERPARAMETER WHERE Container_Resourceuri NOT LIKE '%/super' AND Container_Resourceuri NOT LIKE '%/sixsq' AND Container_Resourceuri NOT LIKE '%/test';
 DELETE FROM USER WHERE Name <> 'super' AND Name <> 'sixsq' AND Name <> 'test';
 UPDATE USERPARAMETER SET Value='' WHERE Name LIKE '%.password';
+
+UPDATE SERVICECONFIGURATIONPARAMETER SET Value='' WHERE Name = 'slipstream.mail.password';
 
 DELETE FROM CLOUDIMAGEIDENTIFIER WHERE Container_Resourceuri NOT LIKE 'module/examples/%';
 

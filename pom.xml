@@ -34,6 +34,7 @@
         <module>backup</module>
         <module>nginxconf</module>
         <module>ssuseradd</module>
+        <module>graphite</module>
       </modules>
     </profile>
   </profiles>

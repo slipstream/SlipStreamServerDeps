@@ -43,6 +43,7 @@
 					</description>
 
 					<requires>
+						<require>gcc</require>
 						<require>python-carbon</require>
 						<require>cairo-devel</require>
 						<require>libffi-devel</require>

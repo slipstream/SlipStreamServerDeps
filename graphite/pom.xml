@@ -121,7 +121,7 @@ virtualenv /usr/share/python/graphite
 /usr/share/python/graphite/bin/pip install -Iv gunicorn 'https://github.com/brutasse/graphite-api/archive/5d073936b2da574516ea8a03ed35258678613320.tar.gz#egg=graphite-api[sentry]'
 
 cp -b -p /etc/carbon/storage-aggregation_ss.conf /etc/carbon/storage-aggregation.conf
-cp -b -p /etc/carbon/storage-schema_ss.conf /etc/carbon/storage-schema.conf
+cp -b -p /etc/carbon/storage-schemas_ss.conf /etc/carbon/storage-schemas.conf
 chown -R carbon:slipstream /etc/carbon
 chmod -R 664 /etc/carbon
 

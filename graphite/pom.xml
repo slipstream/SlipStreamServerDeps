@@ -123,7 +123,8 @@ virtualenv /usr/share/python/graphite
 cp -b -p /etc/carbon/storage-aggregation_ss.conf /etc/carbon/storage-aggregation.conf
 cp -b -p /etc/carbon/storage-schemas_ss.conf /etc/carbon/storage-schemas.conf
 chown -R carbon:slipstream /etc/carbon
-chmod -R 664 /etc/carbon
+chmod -R 664 /etc/carbon/
+chmod 775 /etc/carbon
 
 chkconfig --add carbon-cache
 service carbon-cache start

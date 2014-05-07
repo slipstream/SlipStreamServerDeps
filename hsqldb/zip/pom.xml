@@ -47,7 +47,7 @@
 								<argument>-sSf</argument>
 								<argument>-o</argument>
 								<argument>${project.build.directory}/hsqldb-${hsqldb.version}.zip</argument>
-								<argument>http://freefr.dl.sourceforge.net/project/hsqldb/hsqldb/hsqldb_2_2/hsqldb-${hsqldb.version}.zip</argument>
+								<argument>http://optimate.dl.sourceforge.net/project/hsqldb/hsqldb/hsqldb_2_3/hsqldb-${hsqldb.version}.zip</argument>
 							</arguments>
 						</configuration>
 					</execution>

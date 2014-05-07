@@ -118,29 +118,6 @@
             </executions>
           </plugin>
 
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>nexus-yum-repo-gen-snapshots</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>curl</executable>
-                  <arguments>
-                    <argument>-sSf</argument>
-                    <argument>-u</argument>
-                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
-                    <argument>${nexus.yum.repo.gen.snapshots.uri}</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
         </plugins>
       </build>
     </profile>
@@ -167,29 +144,6 @@
                   <groupId>eu.stratuslab.client</groupId>
                   <artifactId>stratuslab-cli-user-rpm</artifactId>
                   <version>${project.version}</version>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>nexus-yum-repo-gen-releases</id>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>curl</executable>
-                  <arguments>
-                    <argument>-sSf</argument>
-                    <argument>-u</argument>
-                    <argument>${nexus.yum.repo.gen.username}:${nexus.yum.repo.gen.password}</argument> <!-- defined in settings.xml -->
-                    <argument>${nexus.yum.repo.gen.releases.uri}</argument>
-                  </arguments>
                 </configuration>
               </execution>
             </executions>

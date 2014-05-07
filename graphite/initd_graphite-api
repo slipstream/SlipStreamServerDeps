@@ -1,0 +1,122 @@
+#!/bin/bash
+#
+#   /etc/rc.d/init.d/graphite-api
+#
+#   Start up the Graphite API server daemon
+#
+# chkconfig: 2345 20 80
+# description: Graphite API fetchs metrics from a time-series database \
+#	       and renders graphs or JSON data out of these time series. \
+#              This service relies on the gunicorn application server.
+#
+# processname: graphite-api
+# config: /etc/graphite-api.yaml
+# config: /etc/graphite-api.conf.py
+# config: /etc/sysconfig/graphite-api
+# pidfile: /var/run/graphite-api.pid
+
+### BEGIN INIT INFO
+# Provides: graphite-api
+# Required-Start: $local_fs $remote_fs
+# Required-Stop: $local_fs $remote_fs
+# Default-Start: 2 3 4 5
+# Default-Stop: S 0 1 6
+# Short-Description: Start up the Graphite API server daemon
+# Description: 	     Graphite API fetchs metrics from a time-series database
+#	             and renders graphs or JSON data out of these time series.
+#                    This service relies on the gunicorn application server.
+### END INIT INFO
+
+# source function library
+. /etc/rc.d/init.d/functions
+
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+NAME='graphite-api'
+LOCK_FILE=/var/lock/subsys/$NAME
+RETVAL=0
+
+# default settings
+DAEMON=/usr/bin/gunicorn
+PID_FILE=/var/run/graphite-api.pid
+CONF_FILE=/etc/graphite-api.conf.py
+LOG_FILE=/var/log/graphite-api.log
+APP_MODULE='graphite_api.app:app'
+DAEMON_ARGS="--config ${CONF_FILE} --daemon --error-logfile ${LOG_FILE} --access-logfile ${LOG_FILE} --pid ${PID_FILE} ${APP_MODULE}"
+
+# pull in sysconfig settings
+if [ -f /etc/sysconfig/graphite-api ]; then
+  . /etc/sysconfig/graphite-api
+fi
+
+
+start() {
+    [ -x $DAEMON ] || exit 5
+    [ $UID -ne 0 ] && exit 4
+    if [ -e $PID_FILE ]; then
+        RETVAL=0
+        warning && echo -n "${NAME} is already started"
+    else
+        echo -n "Starting ${NAME}: "
+        $DAEMON $DAEMON_ARGS && success || failure
+        RETVAL=$?
+    fi
+    [ $RETVAL -eq 0 ] && touch $LOCK_FILE
+    echo
+    return $RETVAL
+}
+
+stop() {
+    [ $UID -ne 0 ] && exit 4
+    [ -f $PID_FILE ] || exit 7
+    echo -n "Shutting down ${NAME}: "
+    kill -TERM $(cat $PID_FILE) && success || failure
+    RETVAL=$?
+    [ $RETVAL -eq 0 ] && rm -f $LOCK_FILE $PID_FILE
+    echo
+    return $RETVAL
+}
+
+reload() {
+    [ $UID -ne 0 ] && exit 4
+    [ -f $PID_FILE ] || exit 7
+    echo -n "Reloading ${NAME}: "
+    kill -HUP $(cat $PID_FILE) && success || failure
+    RETVAL=$?
+    echo
+    return $RETVAL
+}
+
+restart() {
+    stop
+    sleep 1s
+    start
+}
+
+rh_status() {
+    status -p $PID_FILE $NAME
+    RETVAL=$?
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        rh_status
+        ;;
+    restart)
+        restart
+        ;;
+    reload)
+        reload
+        ;;
+    *)
+        echo "Usage: ${SCRIPTNAME} {start|stop|status|reload|restart}"
+        RETVAL=2
+        ;;
+esac
+exit $RETVAL

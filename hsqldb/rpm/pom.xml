@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>com.sixsq.slipstream</groupId>
 		<artifactId>Hsqldb-SixSq-packaging</artifactId>
-		<version>2.1.10-SNAPSHOT</version>
+		<version>2.1.17-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -92,14 +92,22 @@
 					<description>HyperSQL configured for SlipStream server</description>
 					<requires>
 						<require>java-1.7.0-openjdk</require>
+						<require>slipstream-useradd</require>
 					</requires>
 					<mappings>
 
 						<mapping>
 							<directory>/opt/hsqldb</directory>
+							<filemode>755</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
+						</mapping>
+
+						<mapping>
+							<directory>/opt/hsqldb</directory>
 							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
@@ -109,24 +117,32 @@
 						</mapping>
 
 						<mapping>
-							<directory>/etc/rc.d/init.d/</directory>
+							<directory>/opt/hsqldb/sample</directory>
 							<filemode>755</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
 									<location>${project.build.directory}/hsqldb/sample/hsqldb.init</location>
-									<destination>hsqldb</destination>
 								</source>
 							</sources>
 						</mapping>
+                        <mapping>
+                            <directory>/etc/rc.d/init.d</directory>
+                            <sources>
+                                <softlinkSource>
+                                    <destination>hsqldb</destination>
+                                    <location>/opt/hsqldb/sample/hsqldb.init</location>
+                                </softlinkSource>
+                            </sources>
+                        </mapping>
 
 						<mapping>
 							<directory>/opt/hsqldb/data</directory>
-							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<filemode>664</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
@@ -138,15 +154,15 @@
 						<mapping>
 							<directory>/opt/slipstream/SlipStreamDB</directory>
 							<filemode>755</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 						</mapping>
 
 						<mapping>
 							<directory>/etc</directory>
-							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
+							<filemode>664</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
 							<directoryIncluded>false</directoryIncluded>
 							<sources>
 								<source>
@@ -159,6 +175,7 @@
 					<postinstallScriptlet>
 						<script>
 /sbin/chkconfig --add hsqldb
+/bin/chown -R slipstream: /opt/slipstream/SlipStreamDB
             </script>
 					</postinstallScriptlet>
 

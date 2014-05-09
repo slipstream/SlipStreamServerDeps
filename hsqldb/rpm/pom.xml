@@ -82,7 +82,7 @@
 					<classifier>${package.os}</classifier>
 					<release>${BUILD_NUMBER}.${package.os}</release>
 					<summary>HyperSQL ${hsqldb.version} configured for SlipStream server</summary>
-					<name>hsqldb-slipstream</name>
+					<name>slipstream-hsqldb</name>
 					<group>Applications/Engineering</group>
 					<vendor>SixSq</vendor>
 					<packager>SixSq</packager>
@@ -90,6 +90,9 @@
 					<url>http://sixsq.com</url>
 					<needarch>noarch</needarch>
 					<description>HyperSQL configured for SlipStream server</description>
+		            <obsoletes>
+		              <obsolete>hsqldb-slipstream</obsolete>
+		            </obsoletes>
 					<requires>
 						<require>java-1.7.0-openjdk</require>
 						<require>slipstream-useradd</require>

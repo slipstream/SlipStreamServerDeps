@@ -1,87 +1,112 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>slipstream-server-nginx-conf</artifactId>
-	<name>SlipStream Server nginx conf (RPM)</name>
+  <artifactId>slipstream-server-nginx-conf</artifactId>
+  <name>SlipStream Server nginx conf (RPM)</name>
 
-	<packaging>pom</packaging>
+  <packaging>pom</packaging>
 
-	<parent>
-		<artifactId>SlipStreamServerDeps</artifactId>
-		<groupId>com.sixsq.slipstream</groupId>
-		<version>2.3.3-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <artifactId>SlipStreamServerDeps</artifactId>
+    <groupId>com.sixsq.slipstream</groupId>
+    <version>2.3.3-SNAPSHOT</version>
+  </parent>
 
-	<properties>
-		<package.os>el6</package.os>
-	</properties>
+  <properties>
+    <package.os>el6</package.os>
+  </properties>
 
-	<dependencies>
-	</dependencies>
+  <build>
 
-	<build>
+    <plugins>
 
-		<plugins>
+      <plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>rpm-maven-plugin</artifactId>
+	<extensions>true</extensions>
+	<configuration>
+	  <classifier>${package.os}</classifier>
+	  <release>${BUILD_NUMBER}.${package.os}</release>
+	  <summary>SlipStream Server nginx configuration</summary>
+	  <name>slipstream-server-nginx-conf</name>
+	  <group>Applications/Engineering</group>
+	  <vendor>SixSq</vendor>
+	  <packager>SixSq</packager>
+	  <copyright>Apache License, Version 2.0</copyright>
+	  <url>http://sixsq.com</url>
+	  <needarch>noarch</needarch>
+	  <description>nginx configuration for SlipStream Server</description>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>rpm-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<classifier>${package.os}</classifier>
-					<release>${BUILD_NUMBER}.${package.os}</release>
-					<summary>SlipStream Server nginx configuration</summary>
-					<name>slipstream-server-nginx-conf</name>
-					<group>Applications/Engineering</group>
-					<vendor>SixSq</vendor>
-					<packager>SixSq</packager>
-					<copyright>Apache License, Version 2.0</copyright>
-					<url>http://sixsq.com</url>
-					<needarch>noarch</needarch>
-					<description>
-						nginx configuration for SlipStream Server.
-          </description>
-					<requires>
-						<require>nginx</require>
+	  <requires>
+	    <require>nginx</require>
             <require>slipstream-useradd</require>
-					</requires>
+	  </requires>
 
-					<mappings>
-						<mapping>
-							<directory>/etc/nginx/conf.d</directory>
-							<filemode>664</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<configuration>noreplace</configuration>
-							<sources>
-								<source>
-									<location>./</location>
-									<includes>
-										<include>slipstream.conf</include>
-									</includes>
-								</source>
-							</sources>
-						</mapping>
+          <postinstallScriptlet>
+            <script>
+NGINX_DEFAULT=/etc/nginx/conf.d/default.conf
+[ -f ${NGINX_DEFAULT} ] &amp;&amp; mv ${NGINX_DEFAULT} ${NGINX_DEFAULT}-INACTIVE
 
-					</mappings>
+/opt/slipstream/server/sbin/generate-nginx-certificate.sh || true
 
-				</configuration>
+/sbin/service nginx reload || true
+/sbin/chkconfig --add nginx
+</script>
+          </postinstallScriptlet>
 
-				<executions>
-					<execution>
-						<id>attach-rpm</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attached-rpm</goal>
-						</goals>
-					</execution>
-				</executions>
+          <postremoveScriptlet>
+            <script>
+/sbin/service nginx reload || true
+</script>
+          </postremoveScriptlet>
 
-			</plugin>
+	  <mappings>
 
-		</plugins>
+	    <mapping>
+	      <directory>/etc/nginx/conf.d</directory>
+	      <filemode>664</filemode>
+	      <username>slipstream</username>
+	      <groupname>slipstream</groupname>
+	      <directoryIncluded>false</directoryIncluded>
+	      <configuration>noreplace</configuration>
+	      <sources>
+		<source>
+		  <location>${basedir}/src/main/resources/conf</location>
+		</source>
+	      </sources>
+	    </mapping>
 
-	</build>
+	    <mapping>
+	      <directory>/opt/slipstream/server/sbin</directory>
+	      <filemode>775</filemode>
+	      <username>slipstream</username>
+	      <groupname>slipstream</groupname>
+	      <directoryIncluded>false</directoryIncluded>
+	      <sources>
+		<source>
+		  <location>${basedir}/src/main/scripts</location>
+		</source>
+	      </sources>
+	    </mapping>
+
+	  </mappings>
+
+	</configuration>
+
+	<executions>
+	  <execution>
+	    <id>attach-rpm</id>
+	    <phase>package</phase>
+	    <goals>
+	      <goal>attached-rpm</goal>
+	    </goals>
+	  </execution>
+	</executions>
+
+      </plugin>
+
+    </plugins>
+
+  </build>
 
 </project>

@@ -61,6 +61,7 @@
 						  <workingDirectory>${project.build.directory}</workingDirectory>
 							<executable>unzip</executable>
 							<arguments>
+								<argument>-o</argument>
 								<argument>-q</argument>
 								<argument>hsqldb-${hsqldb.version}.zip</argument>
 							</arguments>

@@ -16,6 +16,7 @@
   </parent>
 
   <modules>
+        <module>tarball</module>
   </modules>
 
   <profiles>

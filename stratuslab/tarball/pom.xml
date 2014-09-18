@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>StratusLab-SixSq-tarball</artifactId>
+	<name>StratusLab tarball packaged by SixSq (ZIP)</name>
+        <packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.sixsq.slipstream</groupId>
+		<artifactId>stratuslab-slipstream-packaging</artifactId>
+		<version>2.3.4-SNAPSHOT</version>
+	</parent>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+
+				<executions>
+					<execution>
+						<id>unpack-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/stratuslab</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>eu.stratuslab.client</groupId>
+									<artifactId>stratuslab-cli-user-pkg</artifactId>
+										<version>${stratuslab.version.zip}</version>
+									<type>tar.gz</type>
+								</artifactItem>
+							</artifactItems>
+							<stripVersion>true</stripVersion>
+						</configuration>
+					</execution>
+				</executions>
+
+			</plugin>
+			<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-share-to-stratuslab-mod</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>${project.build.directory}/stratuslab/</workingDirectory>
+              <executable>cp</executable>
+              <arguments>
+                <argument>-rp</argument>
+                <argument>share</argument>
+                <argument>lib/stratuslab/python/stratuslab/</argument>
+              </arguments>
+            </configuration>
+          </execution>
+
+        </executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+                                        <classifier>bundle</classifier>
+					<descriptors>
+						<descriptor>bundle.xml</descriptor>
+					</descriptors>
+				</configuration>
+
+				<executions>
+
+					<execution>
+						<id>bundle</id>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+
+				</executions>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

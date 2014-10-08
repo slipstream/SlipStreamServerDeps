@@ -44,7 +44,7 @@
 						<configuration>
 							<executable>curl</executable>
 							<arguments>
-								<argument>-sSf</argument>
+								<argument>-sSfL</argument>
 								<argument>-o</argument>
 								<argument>${project.build.directory}/hsqldb-${hsqldb.version}.zip</argument>
 								<argument>http://optimate.dl.sourceforge.net/project/hsqldb/hsqldb/hsqldb_2_3/hsqldb-${hsqldb.version}.zip</argument>

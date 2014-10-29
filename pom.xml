@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>SlipStreamServerDeps</artifactId>
-  <version>2.3.6</version>
+  <version>2.3.7-SNAPSHOT</version>
   <name>SlipStream Server Dependencies</name>
   <description>Packaging of SlipStream Server dependencies</description>
 
@@ -42,7 +42,7 @@
   <scm>
     <connection>scm:git:ssh://git@github.com/slipstream/SlipStreamServerDeps.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/slipstream/SlipStreamServerDeps.git</developerConnection>
-    <tag>SlipStreamServerDeps-2.3.6</tag>
+    <tag>SlipStreamServerDeps-2.2.2-SNAPSHOT</tag>
   </scm>
 
 </project>

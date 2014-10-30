@@ -21,8 +21,8 @@ export RANDFILE
 
 echo "Creating SSL certificate for nginx proxy..."
 
-# Get the full hostname of the machine.
-FULL_HOSTNAME=`hostname -f`
+# Get the a hostname of the machine.
+FULL_HOSTNAME=`hostname -f || hostname -s || echo "selfsigned.hostcert.me"`
 
 cat > ${OPENSSL_CFG} <<EOF
 [ req ]

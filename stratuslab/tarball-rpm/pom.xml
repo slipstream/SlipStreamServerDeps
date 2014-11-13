@@ -93,7 +93,7 @@
 					<classifier>${package.os}</classifier>
 					<release>${BUILD_NUMBER}.${package.os}</release>
 					<summary>StratusLab ${stratuslab.version.zip} API</summary>
-					<name>slipstream-connector-stratuslab-python</name>
+					<name>slipstream-connector-stratuslab-python${slipstream.edition}</name>
 					<group>Applications/Engineering</group>
 					<vendor>SixSq</vendor>
 					<packager>SixSq</packager>
@@ -102,7 +102,7 @@
 					<needarch>noarch</needarch>
 					<description />
 					<obsoletes>
-					   <obsolete>stratuslab-slipstream-downloads</obsolete>
+					   <obsolete>stratuslab-slipstream-downloads${slipstream.edition}</obsolete>
 					</obsoletes>
 					<mappings>
 						<mapping>

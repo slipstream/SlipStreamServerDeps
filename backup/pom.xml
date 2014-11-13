@@ -33,7 +33,7 @@
 					<classifier>${package.os}</classifier>
 					<release>${BUILD_NUMBER}.${package.os}</release>
 					<summary>SlipStream Server Backup</summary>
-					<name>slipstream-server-backup</name>
+					<name>slipstream-server-backup${slipstream.edition}</name>
 					<group>Applications/Engineering</group>
 					<vendor>SixSq</vendor>
 					<packager>SixSq</packager>
@@ -48,7 +48,7 @@
 						<require>curl</require>
 						<require>perl-Digest-HMAC</require>
 						<require>sudo</require>
-						<require>slipstream-useradd</require>
+						<require>slipstream-useradd${slipstream.edition}</require>
 					</requires>
 					<mappings>
 

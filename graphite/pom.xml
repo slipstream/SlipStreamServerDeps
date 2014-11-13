@@ -31,7 +31,7 @@
 					<classifier>${package.os}</classifier>
 					<release>${BUILD_NUMBER}.${package.os}</release>
 					<summary>SlipStream: graphite packaged by SixSq</summary>
-					<name>slipstream-graphite</name>
+					<name>slipstream-graphite${slipstream.edition}</name>
 					<group>Applications/Engineering</group>
 					<vendor>SixSq</vendor>
 					<packager>SixSq</packager>
@@ -50,7 +50,7 @@
 						<require>python-devel</require>
 						<require>python-pip</require>
 						<require>python-virtualenv</require>
-						<require>slipstream-useradd</require>
+						<require>slipstream-useradd${slipstream.edition}</require>
 					</requires>
 
 					<mappings>

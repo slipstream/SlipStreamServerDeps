@@ -28,7 +28,7 @@
 	  <classifier>${package.os}</classifier>
 	  <release>${BUILD_NUMBER}.${package.os}</release>
 	  <summary>SlipStream Server nginx configuration</summary>
-	  <name>slipstream-server-nginx-conf</name>
+	  <name>slipstream-server-nginx-conf${slipstream.edition}</name>
 	  <group>Applications/Engineering</group>
 	  <vendor>SixSq</vendor>
 	  <packager>SixSq</packager>
@@ -39,7 +39,7 @@
 
 	  <requires>
 	    <require>nginx</require>
-            <require>slipstream-useradd</require>
+            <require>slipstream-useradd${slipstream.edition}</require>
 	  </requires>
 
           <postinstallScriptlet>

@@ -73,7 +73,7 @@
           <classifier>${package.os}</classifier>
           <release>${BUILD_NUMBER}.${package.os}</release>
           <summary>libcloud ${libcloud.version} packaged by SixSq for SlipStream</summary>
-          <name>libcloud-slipstream-downloads</name>
+          <name>libcloud-slipstream-downloads${slipstream.edition}</name>
           <group>Applications/Engineering</group>
           <vendor>SixSq</vendor>
           <packager>SixSq</packager>

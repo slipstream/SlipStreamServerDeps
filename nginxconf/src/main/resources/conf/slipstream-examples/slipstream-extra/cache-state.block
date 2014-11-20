@@ -1,0 +1,8 @@
+    # Cache GETs of ss:state of all the runs for 30sec.
+    location ~ "/run/.*/ss:state" {
+         include conf.d/slipstream-proxy.params;
+    
+         proxy_cache zone_one;
+         proxy_cache_valid any 30s;
+         proxy_cache_methods GET;
+    }

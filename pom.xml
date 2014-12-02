@@ -40,9 +40,10 @@
   </profiles>
 
   <scm>
-    <connection>scm:git:ssh://git@github.com/slipstream/SlipStreamServerDeps.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/slipstream/SlipStreamServerDeps.git</developerConnection>
-    <tag>SlipStreamServerDeps-2.2.2-SNAPSHOT</tag>
+    <connection>${scm.read}/SlipStreamServerDeps.git</connection>
+    <developerConnection>${scm.write}/SlipStreamServerDeps.git</developerConnection>
+    <url>${scm.public}/SlipStreamServerDeps</url>
+    <tag>HEAD</tag>
   </scm>
 
 </project>

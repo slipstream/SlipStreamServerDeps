@@ -19,7 +19,6 @@
   <modules>
     <module>hsqldb</module>
     <module>libcloud</module>
-    <module>stratuslab</module>
   </modules>
 
   <profiles>

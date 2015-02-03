@@ -174,6 +174,19 @@
 							</sources>
 						</mapping>
 
+						<mapping>
+                            <directory>/usr/sbin</directory>
+							<filemode>755</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<directoryIncluded>false</directoryIncluded>
+							<sources>
+								<source>
+                                    <location>src/sbin/ss-db-shutdown</location>
+								</source>
+							</sources>
+						</mapping>
+
 					</mappings>
 					<postinstallScriptlet>
 						<script>

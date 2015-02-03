@@ -31,7 +31,7 @@ gpg-zip --encrypt --gpg-args "--yes --trust-model always -r SixSq" \
 
 BACKUP=$AMAZON_BUCKET/$BUNDLE_NAME
 
-output=$(/opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE -- $BACKUP 2>&1)
+output=$(/opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE -- -f $BACKUP 2>&1)
 [ "$?" -eq "0" ] && \
     echo "SlipStream Backup Successful. $BACKUP" || \
     echo "FAILURE $BACKUP: $output"

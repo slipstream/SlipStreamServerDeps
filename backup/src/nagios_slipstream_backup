@@ -38,7 +38,7 @@ if [ "$?" -ne "0" ]; then
 fi
 
 BACKUP=$AMAZON_BUCKET/$BUNDLE_NAME
-output=$(sudo /opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE -- $BACKUP 2>&1)
+output=$(sudo /opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE -- -f $BACKUP 2>&1)
 if [ "$?" -eq "0" ]; then
     echo -e "OK: SlipStream Backup Successful.\n$BACKUP"
     exit $NAGIOS_OK

@@ -33,7 +33,7 @@ tar czf ${BUNDLE}.tgz ${BUNDLE}/*
 
 BACKUP="${AMAZON_BUCKET}/${BUNDLE_NAME}"
 
-output=$(/opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE.tgz -- $BACKUP 2>&1)
+output=$(/opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE.tgz -- -f $BACKUP 2>&1)
 [ "$?" -eq "0" ] && \
     echo "SlipStream Anonymized Backup Successful. $BACKUP" || \
     echo "FAILURE $BACKUP: $output"

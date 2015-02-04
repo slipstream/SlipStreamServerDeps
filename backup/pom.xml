@@ -91,6 +91,7 @@
 										<include>slipstream-restore-from-backup.sh</include>
 										<include>nagios_slipstream_backup</include>
 										<include>slipstream-backup-db-anonymized.sh</include>
+										<include>restore-from-s3-gpg-backup.sh</include>
 									</includes>
 								</source>
 							</sources>

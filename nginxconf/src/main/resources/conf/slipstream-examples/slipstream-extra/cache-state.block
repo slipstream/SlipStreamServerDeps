@@ -3,6 +3,6 @@
          include conf.d/slipstream-proxy.params;
     
          proxy_cache zone_one;
-         proxy_cache_valid any 30s;
+         proxy_cache_valid any 15s;
          proxy_cache_methods GET;
     }

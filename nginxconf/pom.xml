@@ -88,6 +88,13 @@ NGINX_DEFAULT=/etc/nginx/conf.d/default.conf
 		</source>
 	      </sources>
 	    </mapping>
+	    
+	    <mapping>
+	      <directory>/tmp/slipstream/nginx/cache</directory>
+	      <filemode>664</filemode>
+	      <username>slipstream</username>
+	      <groupname>slipstream</groupname>
+	    </mapping>
 
 	  </mappings>
 

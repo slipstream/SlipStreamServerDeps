@@ -1,4 +1,7 @@
-    # Cache GETs of ss:state of all the runs for 30sec.
+    # Cache GETs of ss:state of all the runs for 15sec.
+    # WARNING: If proxy_buffering is off (cf: conf.d/slipstream-proxy.params)
+    #          this feature will not work.
+    
     location ~ "/run/.*/ss:state" {
          include conf.d/slipstream-proxy.params;
     

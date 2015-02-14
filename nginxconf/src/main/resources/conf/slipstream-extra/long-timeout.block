@@ -1,0 +1,5 @@
+    # Increase the timeout for resources that may take time to complete
+    location ~ ^/run/[^/]+/?$ {
+        include conf.d/slipstream-proxy.params;
+        proxy_read_timeout 600;
+    }

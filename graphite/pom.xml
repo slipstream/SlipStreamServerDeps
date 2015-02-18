@@ -1,122 +1,122 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<artifactId>slipstream-graphite</artifactId>
-	<name>SlipStream: graphite packaged by SixSq (RPM)</name>
-
-	<packaging>pom</packaging>
-
-	<parent>
-		<artifactId>SlipStreamServerDeps</artifactId>
-		<groupId>com.sixsq.slipstream</groupId>
-		<version>2.4.1-SNAPSHOT</version>
-	</parent>
-
-	<properties>
-		<package.os>el6</package.os>
-	</properties>
-
-	<dependencies>
-		
-	</dependencies>
-
-	<build>
-
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>rpm-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<classifier>${package.os}</classifier>
-					<release>${BUILD_NUMBER}.${package.os}</release>
-					<summary>SlipStream: graphite packaged by SixSq</summary>
-					<name>slipstream-graphite${slipstream.edition}</name>
-					<group>Applications/Engineering</group>
-					<vendor>SixSq</vendor>
-					<packager>SixSq</packager>
-					<copyright>Apache License, Version 2.0</copyright>
-					<url>http://sixsq.com</url>
-					<needarch>noarch</needarch>
-					<description>
-						SlipStream: graphite packaged by SixSq (used by metering).
-					</description>
-
-					<requires>
-						<require>gcc</require>
-						<require>python-carbon</require>
-						<require>cairo-devel</require>
-						<require>libffi-devel</require>
-						<require>python-devel</require>
-						<require>python-pip</require>
-						<require>python-virtualenv</require>
-						<require>slipstream-useradd${slipstream.edition}</require>
-					</requires>
-
-					<mappings>
-						<mapping>
-							<directory>/etc/</directory>
-							<filemode>664</filemode>
-							<username>carbon</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<configuration>noreplace</configuration>
-							<sources>
-								<source>
-									<location>./</location>
-									<includes>
-										<include>graphite-api.yaml</include>
-										<include>graphite-api.conf.py</include>
-									</includes>
-								</source>
-							</sources>
-						</mapping>
-						
-						<mapping>
-							<directory>/etc/rc.d/init.d</directory>
-							<filemode>775</filemode>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>initd_graphite-api</location>
-									<destination>graphite-api</destination>
-								</source>
-							</sources>
-						</mapping>
-
-						<mapping>
-                                                        <directory>/etc/sysconfig</directory>
-                                                        <directoryIncluded>false</directoryIncluded>
-                                                        <sources>
-                                                                <source>
-                                                                        <location>sysconfig_graphite-api</location>
-                                                                        <destination>graphite-api</destination>
-                                                                </source>
-                                                        </sources>
-                                                </mapping>
-
-						<mapping>
-                                                        <directory>/etc/carbon</directory>
-                                                        <filemode>664</filemode>
-                                                        <username>carbon</username>
-                                                        <groupname>slipstream</groupname>
-                                                        <directoryIncluded>false</directoryIncluded>
-                                                        <configuration>noreplace</configuration>
-                                                        <sources>
-                                                                <source>
-                                                                        <location>./</location>
-                                                                        <includes>
-                                                                                <include>storage-aggregation_ss.conf</include>
-                                                                                <include>storage-schemas_ss.conf</include>
-                                                                        </includes>
-                                                                </source>
-                                                        </sources>
-                                                </mapping>
-
-					</mappings>
-
-					<postinstallScriptlet>
-						<script>
+  <modelVersion>4.0.0</modelVersion>
+  
+  <artifactId>slipstream-graphite</artifactId>
+  <name>SlipStream: graphite packaged by SixSq (RPM)</name>
+  
+  <packaging>pom</packaging>
+  
+  <parent>
+    <artifactId>SlipStreamServerDeps</artifactId>
+    <groupId>com.sixsq.slipstream</groupId>
+    <version>2.4.1-SNAPSHOT</version>
+  </parent>
+  
+  <properties>
+    <package.os>el6</package.os>
+  </properties>
+  
+  <dependencies>
+    
+  </dependencies>
+  
+  <build>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <classifier>${package.os}</classifier>
+          <release>${BUILD_NUMBER}.${package.os}</release>
+          <summary>SlipStream: graphite packaged by SixSq</summary>
+          <name>slipstream-graphite${slipstream.edition}</name>
+          <group>Applications/Engineering</group>
+          <vendor>SixSq</vendor>
+          <packager>SixSq</packager>
+          <copyright>Apache License, Version 2.0</copyright>
+          <url>http://sixsq.com</url>
+          <needarch>noarch</needarch>
+          <description>
+            SlipStream: graphite packaged by SixSq (used by metering).
+          </description>
+          
+          <requires>
+            <require>gcc</require>
+            <require>python-carbon</require>
+            <require>cairo-devel</require>
+            <require>libffi-devel</require>
+            <require>python-devel</require>
+            <require>python-pip</require>
+            <require>python-virtualenv</require>
+            <require>slipstream-useradd${slipstream.edition}</require>
+          </requires>
+          
+          <mappings>
+            <mapping>
+              <directory>/etc/</directory>
+              <filemode>664</filemode>
+              <username>carbon</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
+              <sources>
+                <source>
+                  <location>./</location>
+                  <includes>
+                    <include>graphite-api.yaml</include>
+                    <include>graphite-api.conf.py</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
+            
+            <mapping>
+              <directory>/etc/rc.d/init.d</directory>
+              <filemode>775</filemode>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>initd_graphite-api</location>
+                  <destination>graphite-api</destination>
+                </source>
+              </sources>
+            </mapping>
+            
+            <mapping>
+              <directory>/etc/sysconfig</directory>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>sysconfig_graphite-api</location>
+                  <destination>graphite-api</destination>
+                </source>
+              </sources>
+            </mapping>
+            
+            <mapping>
+              <directory>/etc/carbon</directory>
+              <filemode>664</filemode>
+              <username>carbon</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
+              <sources>
+                <source>
+                  <location>./</location>
+                  <includes>
+                    <include>storage-aggregation_ss.conf</include>
+                    <include>storage-schemas_ss.conf</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
+            
+          </mappings>
+          
+          <postinstallScriptlet>
+            <script>
 virtualenv /usr/share/python/graphite
 /usr/share/python/graphite/bin/pip install -Iv gunicorn 'https://github.com/brutasse/graphite-api/archive/5d073936b2da574516ea8a03ed35258678613320.tar.gz#egg=graphite-api[sentry]'
 
@@ -133,25 +133,25 @@ service carbon-cache start
 chkconfig --add graphite-api
 chkconfig graphite-api on
 service graphite-api start
-						</script>
-					</postinstallScriptlet>
-
-				</configuration>
-
-				<executions>
-					<execution>
-						<id>attach-rpm</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attached-rpm</goal>
-						</goals>
-					</execution>
-				</executions>
-
-			</plugin>
-
-		</plugins>
-
-	</build>
-
+            </script>
+          </postinstallScriptlet>
+          
+        </configuration>
+        
+        <executions>
+          <execution>
+            <id>attach-rpm</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached-rpm</goal>
+            </goals>
+          </execution>
+        </executions>
+        
+      </plugin>
+      
+    </plugins>
+    
+  </build>
+  
 </project>

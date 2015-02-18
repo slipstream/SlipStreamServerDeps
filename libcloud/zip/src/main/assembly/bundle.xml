@@ -5,13 +5,12 @@
   
   <formats>
     <format>zip</format>
-    <format>tar.gz</format>
   </formats>
   
   <fileSets>
 
     <fileSet>
-      <directory>${project.build.directory}/libcloud</directory>
+      <directory>${project.build.directory}/dependency/apache-libcloud-${libcloud.version}</directory>
       <directoryMode>755</directoryMode>
       <fileMode>644</fileMode>
       <outputDirectory>libcloud</outputDirectory>

@@ -1,132 +1,159 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>Libcloud-SixSq-zip</artifactId>
-	<name>libcloud packaged by SixSq (ZIP)</name>
+  <artifactId>Libcloud-SixSq-zip</artifactId>
+  <name>libcloud packaged by SixSq (ZIP)</name>
 
-	<packaging>pom</packaging>
+  <packaging>pom</packaging>
 
-	<parent>
-		<groupId>com.sixsq.slipstream</groupId>
-		<artifactId>Libcloud-SixSq-pom</artifactId>
-		<version>2.4.1-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>com.sixsq.slipstream</groupId>
+    <artifactId>Libcloud-SixSq-pom</artifactId>
+    <version>2.4.1-SNAPSHOT</version>
+  </parent>
 
-	<build>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.libcloud</groupId>
+      <artifactId>libcloud</artifactId>
+      <version>${libcloud.version}</version>
+      <type>tar.gz</type>
+    </dependency>
+  </dependencies>
 
-		<plugins>
+  <build>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
+    <plugins>
 
-				<executions>
-					<execution>
-						<id>mkdir-targets</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>mkdir</executable>
-							<arguments>
-								<argument>-p</argument>
-								<argument>${project.build.directory}</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>get-libcloud</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>curl</executable>
-							<arguments>
-								<argument>-sSfL</argument>
-								<argument>-o</argument>
-								<argument>${project.build.directory}/apache-libcloud-${libcloud.version}.tar.bz2</argument>
-								<argument>http://pypi.python.org/packages/source/a/apache-libcloud/apache-libcloud-${libcloud.version}.tar.bz2</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>unpack-libcloud</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>${project.build.directory}</workingDirectory>
-							<executable>tar</executable>
-							<arguments>
-								<argument>--strip-components</argument>
-								<argument>1</argument>
-								<argument>-jxvf</argument>
-								<argument>apache-libcloud-${libcloud.version}.tar.bz2</argument>
-								<argument>apache-libcloud-${libcloud.version}/libcloud</argument>
-							</arguments>
-						</configuration>
-					</execution>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-				</executions>
-			</plugin>
+<!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>mkdir-targets</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>mkdir</executable>
+              <arguments>
+                <argument>-p</argument>
+                <argument>${project.build.directory}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>get-libcloud</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>curl</executable>
+              <arguments>
+                <argument>-sSfL</argument>
+                <argument>-o</argument>
+                <argument>${project.build.directory}/apache-libcloud-${libcloud.version}.tar.bz2</argument>
+                <argument>http://pypi.python.org/packages/source/a/apache-libcloud/apache-libcloud-${libcloud.version}.tar.bz2</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-libcloud</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>${project.build.directory}</workingDirectory>
+              <executable>tar</executable>
+              <arguments>
+                <argument>XXXXstrip-components</argument>
+                <argument>1</argument>
+                <argument>-jxvf</argument>
+                <argument>apache-libcloud-${libcloud.version}.tar.bz2</argument>
+                <argument>apache-libcloud-${libcloud.version}/libcloud</argument>
+              </arguments>
+            </configuration>
+          </execution>
 
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
+        </executions>
+      </plugin>
+-->
 
-				<executions>
-					<execution>
-						<id>patch-abiquo</id>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<phase>prepare-package</phase>
+<!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
 
-						<configuration>
-							<outputDirectory>${project.build.directory}/libcloud</outputDirectory>
-							<overwrite>true</overwrite>
-							<resources>
-								<resource>
-									<directory>patch/libcloud</directory>
-								</resource>
-							</resources>
-						</configuration>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
 
-					</execution>
-				</executions>
+        <executions>
+          <execution>
+            <id>patch-abiquo</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>prepare-package</phase>
 
-			</plugin>
+            <configuration>
+              <outputDirectory>${project.build.directory}/libcloud</outputDirectory>
+              <overwrite>true</overwrite>
+              <resources>
+                <resource>
+                  <directory>patch/libcloud</directory>
+                </resource>
+              </resources>
+            </configuration>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
+          </execution>
+        </executions>
 
-				<executions>
-					<execution>
-						<id>bundle</id>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<descriptors>
-								<descriptor>assembly/bundle.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
+      </plugin>
+-->
 
-			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
 
-		</plugins>
+        <executions>
+          <execution>
+            <id>bundle</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <descriptors>
+                <descriptor>src/main/assembly/bundle.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
 
-	</build>
+      </plugin>
+
+    </plugins>
+
+  </build>
 
 </project>

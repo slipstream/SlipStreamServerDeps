@@ -1,209 +1,209 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>slipstream-server-backup</artifactId>
-	<name>SlipStream Server Backup (RPM)</name>
+  <artifactId>slipstream-server-backup</artifactId>
+  <name>SlipStream Server Backup (RPM)</name>
 
-	<packaging>pom</packaging>
+  <packaging>pom</packaging>
 
-	<parent>
-		<artifactId>SlipStreamServerDeps</artifactId>
-		<groupId>com.sixsq.slipstream</groupId>
-		<version>2.4.1-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <artifactId>SlipStreamServerDeps</artifactId>
+    <groupId>com.sixsq.slipstream</groupId>
+    <version>2.4.1-SNAPSHOT</version>
+  </parent>
 
-	<properties>
-		<slipstream.base.dir>/opt/slipstream</slipstream.base.dir>
-		<installation.dir>${slipstream.base.dir}/backup</installation.dir>
-		<package.os>el6</package.os>
-	</properties>
+  <properties>
+    <slipstream.base.dir>/opt/slipstream</slipstream.base.dir>
+    <installation.dir>${slipstream.base.dir}/backup</installation.dir>
+    <package.os>el6</package.os>
+  </properties>
 
-	<dependencies>
-	</dependencies>
+  <dependencies>
+  </dependencies>
 
-	<build>
+  <build>
 
-		<plugins>
+    <plugins>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>rpm-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<classifier>${package.os}</classifier>
-					<release>${BUILD_NUMBER}.${package.os}</release>
-					<summary>SlipStream Server Backup</summary>
-					<name>slipstream-server-backup${slipstream.edition}</name>
-					<group>Applications/Engineering</group>
-					<vendor>SixSq</vendor>
-					<packager>SixSq</packager>
-					<copyright>Apache License, Version 2.0</copyright>
-					<url>http://sixsq.com</url>
-					<needarch>noarch</needarch>
-					<description>
-						SlipStream Server Backup.
-					</description>
-					<requires>
-						<require>gnupg2</require>
-						<require>curl</require>
-						<require>perl-Digest-HMAC</require>
-						<require>sudo</require>
-						<require>slipstream-useradd${slipstream.edition}</require>
-					</requires>
-					<mappings>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <classifier>${package.os}</classifier>
+          <release>${BUILD_NUMBER}.${package.os}</release>
+          <summary>SlipStream Server Backup</summary>
+          <name>slipstream-server-backup${slipstream.edition}</name>
+          <group>Applications/Engineering</group>
+          <vendor>SixSq</vendor>
+          <packager>SixSq</packager>
+          <copyright>Apache License, Version 2.0</copyright>
+          <url>http://sixsq.com</url>
+          <needarch>noarch</needarch>
+          <description>
+            SlipStream Server Backup.
+          </description>
+          <requires>
+            <require>gnupg2</require>
+            <require>curl</require>
+            <require>perl-Digest-HMAC</require>
+            <require>sudo</require>
+            <require>slipstream-useradd${slipstream.edition}</require>
+          </requires>
+          <mappings>
 
-						<mapping>
-							<directory>${installation.dir}</directory>
-							<filemode>775</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>true</directoryIncluded>
-						</mapping>
+            <mapping>
+              <directory>${installation.dir}</directory>
+              <filemode>775</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>true</directoryIncluded>
+            </mapping>
 
-						<mapping>
-							<directory>${installation.dir}</directory>
-							<filemode>775</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/s3-curl</location>
-									<includes>
-										<include>s3curl.pl</include>
-									</includes>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>${installation.dir}</directory>
+              <filemode>775</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>src/s3-curl</location>
+                  <includes>
+                    <include>s3curl.pl</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>${installation.dir}</directory>
-							<filemode>775</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/</location>
-									<includes>
-										<include>slipstream-backup.sh</include>
-										<include>slipstream-backup-logs.sh</include>
-										<include>slipstream-restore-from-backup.sh</include>
-										<include>nagios_slipstream_backup</include>
-										<include>slipstream-backup-db-anonymized.sh</include>
-										<include>restore-from-s3-gpg-backup.sh</include>
-									</includes>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>${installation.dir}</directory>
+              <filemode>775</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>src/</location>
+                  <includes>
+                    <include>slipstream-backup.sh</include>
+                    <include>slipstream-backup-logs.sh</include>
+                    <include>slipstream-restore-from-backup.sh</include>
+                    <include>nagios_check_slipstream_backup_timestamp</include>
+                    <include>slipstream-backup-db-anonymized.sh</include>
+                    <include>restore-from-s3-gpg-backup.sh</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>${installation.dir}</directory>
-							<filemode>664</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/</location>
-									<includes>
-										<include>s3curl.cfg.tpl</include>
-										<include>anonymize.sql</include>
-									</includes>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>${installation.dir}</directory>
+              <filemode>664</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>src/</location>
+                  <includes>
+                    <include>s3curl.cfg.tpl</include>
+                    <include>anonymize.sql</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>${installation.dir}</directory>
-							<filemode>400</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/</location>
-									<includes>
-										<include>sixsq-pub-gpg.asc</include>
-									</includes>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>${installation.dir}</directory>
+              <filemode>400</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>src/</location>
+                  <includes>
+                    <include>sixsq-pub-gpg.asc</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>/etc/slipstream</directory>
-							<filemode>664</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<configuration>noreplace</configuration>
-							<sources>
-								<source>
-									<location>src/</location>
-									<includes>
-										<include>slipstream-backup.conf</include>
-									</includes>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>/etc/slipstream</directory>
+              <filemode>664</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
+              <sources>
+                <source>
+                  <location>src/</location>
+                  <includes>
+                    <include>slipstream-backup.conf</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>/etc/cron.d</directory>
-							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<configuration>noreplace</configuration>
-							<sources>
-								<source>
-									<location>src/cron-slipstream-backup</location>
-									<destination>slipstream-backup</destination>
-								</source>
-								<source>
-									<location>src/cron-slipstream-backup-anonymized</location>
-									<destination>slipstream-backup-anonymized</destination>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>/etc/cron.d</directory>
+              <filemode>644</filemode>
+              <username>root</username>
+              <groupname>root</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
+              <sources>
+                <source>
+                  <location>src/cron-slipstream-backup</location>
+                  <destination>slipstream-backup</destination>
+                </source>
+                <source>
+                  <location>src/cron-slipstream-backup-anonymized</location>
+                  <destination>slipstream-backup-anonymized</destination>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>/etc/sudoers.d</directory>
-							<filemode>0440</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/etc/01_nrpe</location>
-									<destination>01_nrpe</destination>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>/etc/sudoers.d</directory>
+              <filemode>0440</filemode>
+              <username>root</username>
+              <groupname>root</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>src/etc/01_nrpe</location>
+                  <destination>01_nrpe</destination>
+                </source>
+              </sources>
+            </mapping>
 
-					</mappings>
+          </mappings>
 
           <postinstallScriptlet>
             <script>
-/bin/su slipstream -c '/usr/bin/gpg --yes --import ${installation.dir}/sixsq-pub-gpg.asc'
+              /bin/su slipstream -c '/usr/bin/gpg --yes --import ${installation.dir}/sixsq-pub-gpg.asc'
             </script>
           </postinstallScriptlet>
 
-				</configuration>
+        </configuration>
 
-				<executions>
-					<execution>
-						<id>attach-rpm</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attached-rpm</goal>
-						</goals>
-					</execution>
-				</executions>
+        <executions>
+          <execution>
+            <id>attach-rpm</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached-rpm</goal>
+            </goals>
+          </execution>
+        </executions>
 
-			</plugin>
+      </plugin>
 
-		</plugins>
+    </plugins>
 
-	</build>
+  </build>
 
 </project>

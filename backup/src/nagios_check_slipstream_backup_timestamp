@@ -1,0 +1,29 @@
+#!/bin/bash
+
+export LANG=en_US.utf8
+
+set -e
+
+NAGIOS_OK=0
+NAGIOS_CRITICAL=2
+
+CONFIG=/etc/slipstream/slipstream-backup.conf
+
+source $CONFIG
+
+BACKUP_TIMESTAMP=${BACKUP_TIMESTAMP:-/var/log/slipstream-backup-timestamp}
+BACKUP_AGE_LIMIT=${BACKUP_AGE_LIMIT:-"250"}  # 4 hours + 10' of tolerance
+
+if [ ! -f ${BACKUP_TIMESTAMP} ]; then
+  echo -e "CRITICAL: missing ${BACKUP_TIMESTAMP}"
+  exit $NAGIOS_CRITICAL
+fi
+
+if [ $(find ${BACKUP_TIMESTAMP} -mmin "+${BACKUP_AGE_LIMIT}") ]; then
+  touch ${BACKUP_TIMESTAMP}
+  echo -e "CRITICAL: ${BACKUP_TIMESTAMP} older than ${BACKUP_AGE_LIMIT} minutes"
+  exit $NAGIOS_CRITICAL
+fi
+
+echo -e "OK: ${BACKUP_TIMESTAMP} younger than ${BACKUP_AGE_LIMIT} minutes"
+exit $NAGIOS_OK

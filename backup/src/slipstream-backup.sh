@@ -18,6 +18,8 @@ SS_DB=/opt/slipstream/SlipStreamDB/
 SS_CONF=$(find /opt/slipstream/server -name "default.config.properties" -o -name slipstream.xml)
 SS_REPORTS=$([ -d /var/tmp/slipstream/reports ] && echo /var/tmp/slipstream/reports)
 
+BACKUP_TIMESTAMP=${BACKUP_TIMESTAMP:-"/var/log/slipstream-backup-timestamp"}
+
 cleanup() {
     rm -f $BUNDLE
 }
@@ -32,8 +34,11 @@ gpg-zip --encrypt --gpg-args "--yes --trust-model always -r SixSq" \
 BACKUP=$AMAZON_BUCKET/$BUNDLE_NAME
 
 output=$(/opt/slipstream/backup/s3curl.pl --id sixsq --put $BUNDLE -- -f $BACKUP 2>&1)
-[ "$?" -eq "0" ] && \
-    echo "SlipStream Backup Successful. $BACKUP" || \
+if [ "$?" -eq "0" ]; then
+    echo "SlipStream Backup Successful. $BACKUP"
+    touch ${BACKUP_TIMESTAMP}
+    exit 0
+else
     echo "FAILURE $BACKUP: $output"
-
-exit 0
+    exit 1
+fi

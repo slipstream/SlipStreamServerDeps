@@ -1,0 +1,22 @@
+# Limit the number of connections per client and per server
+# Limit the request rate per client and per server
+# Return 429 Too Many Requests if the limit is exceeded
+
+# Please add the following lines in http:
+#    limit_conn_zone $binary_remote_addr zone=connperclientlimit:10m;
+#    limit_conn_zone $server_name zone=connperserverlimit:500k;
+#    limit_req_zone $binary_remote_addr zone=rateperclientlimit:10m rate=2r/s;
+#    limit_req_zone $server_name zone=rateperserverlimit:500k rate=50r/s;
+
+limit_conn connperclientlimit 40;
+limit_conn connperserverlimit 1000;
+
+limit_conn_log_level warn;
+limit_conn_status 429;
+
+limit_req zone=rateperclientlimit burst=100 nodelay;
+limit_req zone=rateperserverlimit burst=100 nodelay;
+
+limit_req_log_level warn;
+limit_req_status 429;
+

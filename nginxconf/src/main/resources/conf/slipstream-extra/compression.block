@@ -1,0 +1,15 @@
+# Enable compression & decompression
+
+gzip on;
+gunzip on;
+gzip_types text/plain text/xml text/css text/javascript text/x-component
+           application/json application/javascript application/x-javascript application/xml 
+           application/rss+xml application/atom+xml application/rdf+xml 
+           application/vnd.ms-fontobject application/x-font-ttf
+           application/x-web-app-manifest+json application/xhtml+xml
+           image/svg+xml image/x-icon
+           font/opentype;
+gzip_comp_level 6;
+gzip_proxied any;
+gzip_vary on;
+

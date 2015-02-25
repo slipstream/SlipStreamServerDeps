@@ -1,0 +1,14 @@
+# Enable nginx status (eg: to be used with collectd)
+
+# Collectd config example:
+#   LoadPlugin nginx
+#   <Plugin nginx>
+#	   URL "http://localhost/nginx_status"
+#   </Plugin>
+
+location /nginx_status {
+   stub_status on;
+   access_log  off;
+   allow 127.0.0.1;
+   deny all;
+}

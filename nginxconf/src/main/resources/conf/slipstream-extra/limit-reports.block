@@ -1,0 +1,16 @@
+# Limit the number of reports that can be sent simultaneously
+# Return 429 Too Many Requests if the limit is exceeded
+
+# Please add the following lines in http:
+#    map $request_method $reports_limit_key {
+#        default         "";
+#        PUT             "True";
+#    }
+#    limit_conn_zone $reports_limit_key zone=reportslimit:10k;
+
+location ~ ^/reports/ {
+    include conf.d/slipstream-proxy.params;
+    
+    limit_conn reportslimit 10;
+}
+

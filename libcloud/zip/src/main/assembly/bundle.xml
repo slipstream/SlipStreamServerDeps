@@ -11,7 +11,7 @@
   <fileSets>
 
     <fileSet>
-      <directory>${project.build.directory}/dependency/apache-libcloud-${libcloud.version}</directory>
+      <directory>${project.build.directory}/dependency/apache-libcloud-${libcloud.version}/libcloud</directory>
       <directoryMode>755</directoryMode>
       <fileMode>644</fileMode>
       <outputDirectory>libcloud</outputDirectory>

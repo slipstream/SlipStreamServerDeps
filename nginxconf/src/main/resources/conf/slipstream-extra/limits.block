@@ -3,6 +3,13 @@
 # Return 429 Too Many Requests if the limit is exceeded
 
 # Please add the following lines in http:
+#    map $request_method $limit_complete_post_uri {
+#        POST            $uri;
+#    }
+#    map $limit_complete_post_uri $limit_complete_post_key {
+#        "~*^/run/(?P<runid>[^/]+)/.*:complete$" $runid;
+#    }
+#    limit_conn_zone $limit_complete_post_key zone=completepostlimit:2m;
 #    limit_conn_zone $binary_remote_addr zone=connperclientlimit:10m;
 #    limit_conn_zone $server_name zone=connperserverlimit:500k;
 #    limit_req_zone $binary_remote_addr zone=rateperclientlimit:10m rate=2r/s;
@@ -10,6 +17,7 @@
 
 limit_conn connperclientlimit 40;
 limit_conn connperserverlimit 1000;
+limit_conn completepostlimit 1;
 
 limit_conn_log_level warn;
 limit_conn_status 429;

@@ -20,7 +20,6 @@ if [ ! -f ${BACKUP_TIMESTAMP} ]; then
 fi
 
 if [ $(find ${BACKUP_TIMESTAMP} -mmin "+${BACKUP_AGE_LIMIT}") ]; then
-  touch ${BACKUP_TIMESTAMP}
   echo -e "CRITICAL: ${BACKUP_TIMESTAMP} older than ${BACKUP_AGE_LIMIT} minutes"
   exit $NAGIOS_CRITICAL
 fi

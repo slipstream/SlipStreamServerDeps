@@ -24,8 +24,8 @@
 
 limit_conn connperclientlimit 40;
 limit_conn connperserverlimit 1000;
-limit_conn completepostlimit 1;
-limit_conn abortputlimit 1;
+limit_conn completepostlimit 10;
+limit_conn abortputlimit 10;
 
 limit_conn_log_level warn;
 limit_conn_status 429;

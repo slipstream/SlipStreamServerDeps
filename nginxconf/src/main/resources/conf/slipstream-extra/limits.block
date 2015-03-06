@@ -30,8 +30,8 @@ limit_conn abortputlimit 10;
 limit_conn_log_level warn;
 limit_conn_status 429;
 
-limit_req zone=rateperclientlimit burst=100 nodelay;
-limit_req zone=rateperserverlimit burst=100 nodelay;
+limit_req zone=rateperclientlimit burst=200 nodelay;
+limit_req zone=rateperserverlimit burst=200 nodelay;
 
 limit_req_log_level warn;
 limit_req_status 429;

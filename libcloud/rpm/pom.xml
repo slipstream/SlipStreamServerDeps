@@ -81,6 +81,11 @@
           <url>http://sixsq.com</url>
           <needarch>noarch</needarch>
           <description />
+
+          <obsoletes>
+            <obsolete>libcloud-slipstream-downloads</obsolete>
+          </obsoletes>
+
           <mappings>
             <mapping>
               <directory>${slipstream.downloads.dir}</directory>

@@ -38,9 +38,11 @@
 					<copyright>Apache License, Version 2.0</copyright>
 					<url>http://sixsq.com</url>
 					<needarch>noarch</needarch>
-					<description>
-						Create new user for SlipStream.
-          </description>
+					<description>Create new user for SlipStream.</description>
+
+					<obsoletes>
+                                          <obsolete>slipstream-useradd</obsolete>
+                                        </obsoletes>
 
 
          <mappings />

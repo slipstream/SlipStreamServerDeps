@@ -92,6 +92,7 @@
 					<description>HyperSQL configured for SlipStream server</description>
 		            <obsoletes>
 		              <obsolete>hsqldb-slipstream</obsolete>
+                              <obsolete>slipstream-hsqldb</obsolete>
 		            </obsoletes>
 					<requires>
 						<require>java-1.7.0-openjdk</require>

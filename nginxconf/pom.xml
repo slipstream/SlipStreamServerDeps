@@ -37,6 +37,9 @@
 	  <needarch>noarch</needarch>
 	  <description>nginx configuration for SlipStream Server</description>
 
+          <obsoletes>
+            <obsolete>slipstream-server-nginx-conf</obsolete>
+          </obsoletes>
 	  <requires>
 	    <require>nginx</require>
             <require>slipstream-useradd${slipstream.edition}</require>

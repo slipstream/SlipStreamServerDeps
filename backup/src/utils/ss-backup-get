@@ -1,0 +1,153 @@
+#!/usr/bin/env python
+
+import re
+import sys
+import boto
+from optparse import OptionParser
+
+parser = OptionParser()
+parser.usage = '''Search for backup in S3.  Usually, backup name is in the form:
+<friendly-name>.<host-ip>.<time-iso8601-no-colons>
+Example:
+slipstream.backup.212.159.217.24.2015-02-01T2300Z
+'''
+parser.add_option('-d', dest='debug', help='Switch debugging output on.',
+                  default=False, action='store_true')
+parser.add_option('-l', dest='list_only', help='List only (don\'t download)',
+                  default=False, action='store_true')
+parser.add_option('-b', '--bucket', dest='bucket_name', help='Bucket name.')
+parser.add_option('--date', dest='date', help='Date to choose the backup from '
+                  '(last backup on this date will be taken). Example: 2015-02-01.'
+                  ' Default is to search for the latest backup.',
+                  default=None)
+parser.add_option('-n', '--backup-name', dest='backup_name', help='Full name of'
+                  ' the backup.', default=None)
+parser.add_option('-f', '--file', dest='fileout', help='Optional output file name.'
+                  ' If not given, the name of the backup is used.',
+                  default=None)
+parser.add_option('--hint', dest='hint', help='Hint. Sub-string from the backup'
+                  ' name. Useful to select a backup on the same date by IP.',
+                  default=None)
+options, args = parser.parse_args()
+
+def check_options():
+    if not options.bucket_name:
+        parser.error('Bucket name should be provided')
+
+
+class S3Downloader(object):
+    NUM_CB = 100
+
+    def __init__(self, bucket_name, key=None, hint=None, date=None, fileout=None,
+                 debug=False):
+        self.bucket_name = bucket_name
+        self.key = key
+        self.hint_regex = hint and re.compile('.*%s.*' % hint) or None
+        self.date = date
+        self.fileout = fileout
+        self.debug = debug and 3 or 0
+        self.s3 = None
+        self._connect()
+
+    def _connect(self):
+        self.s3 = boto.connect_s3()
+        self.s3.debug = self.debug
+
+    def download(self, key=None):
+        if not key:
+            key = self.find_key()
+        self._print_detail('%s/%s' % (self.bucket_name, key.name))
+        fileout = self.fileout or key.name
+        self._print_state('Downloading into %s, size %s bytes' %
+                (fileout, key.size))
+        key.get_contents_to_filename(fileout,
+                cb=self._download_callback, num_cb=self.NUM_CB)
+        self._print_state('Done.')
+
+    def _get_bucket(self):
+        return self.s3.get_bucket(self.bucket_name)
+
+    def find_key(self):
+        key = None
+        if self.key:
+            key = self._lookup_key(self.key)
+        else:
+            key = self._search_key()
+        if not key:
+            raise Exception('Failed to find key in bucket %s' % key.name)
+        return key
+
+    def _lookup_key(self, bucket, key):
+        self._print_state('Looking up backup by key: %s' % key)
+        bucket = self._get_bucket()
+        return bucket.lookup(key)
+
+    def _search_key(self):
+        bucket = self._get_bucket()
+        key = None
+        if self.date:
+            key = self._search_key_by_date(bucket, self.date)
+        else:
+            key = self._search_last_key(bucket)
+        return key
+
+    def _search_key_by_date(self, bucket, date):
+        self._print_state('Searching by date %s in bucket %s' % (date,
+                          bucket.name))
+        candidates = []
+        for k in bucket:
+            if k.last_modified.startswith(date):
+                if self.hint_regex:
+                     if self.hint_regex.search(k.name):
+                         candidates.append((k.last_modified, k))
+                else:
+                    candidates.append((k.last_modified, k))
+        return sorted(candidates, cmp=lambda x,y: cmp(x[0], y[0]))[-1][1]
+
+    def _search_last_key(self, bucket):
+        self._print_state('Selecting last modified file in bucket %s.' %
+                          bucket.name)
+        candidates = []
+        for k in bucket:
+            if self.hint_regex:
+                 if self.hint_regex.search(k.name):
+                     candidates.append((k.last_modified, k))
+            else:
+                candidates.append((k.last_modified, k))
+        return sorted(candidates, cmp=lambda x,y: cmp(x[0], y[0]))[-1][1]
+
+    def _download_callback(self, nb, obj_size):
+        sys.stdout.write("Download progress: (Mbytes: %.2f of %.2f) %d%%   \r" %
+            (float(nb)/1024**2, float(obj_size)/1024**2, (nb * self.NUM_CB / obj_size)))
+        sys.stdout.flush()
+        if nb == obj_size:
+            sys.stdout.write('\n')
+            sys.stdout.flush()
+
+    @staticmethod
+    def _print_state(msg):
+        print "::: %s" % msg
+
+    @staticmethod
+    def _print_detail(msg):
+        print "    >>> %s" % msg
+
+    @staticmethod
+    def get_key_url(key):
+        return 'https://%s/%s' % (key.bucket.get_website_endpoint(), key.name)
+
+check_options()
+
+s3d = S3Downloader(options.bucket_name,
+                   key=options.backup_name,
+                   hint=options.hint,
+                   date=options.date,
+                   fileout=options.fileout,
+                   debug=options.debug)
+
+if options.list_only:
+    print s3d.get_key_url(s3d.find_key())
+else:
+    s3d.download()
+
+sys.exit(0)

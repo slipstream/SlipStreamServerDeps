@@ -1,0 +1,19 @@
+# Mapping between $http_accept and the resulting $type.
+# This mapping is used by error-pages.block to set the file extension of error pages.
+
+default                       "txt";    
+
+"~*text/html.*"               "html";
+"~*text/plain.*"              "txt";
+"~*text/xml.*"                "xml";
+"~*application/xml.*"         "xml";
+"~*application/json.*"        "json";
+"~*application/xhtml+xml.*"   "html";
+
+"~*.*text/html.*"             "html";
+"~*.*text/plain.*"            "txt";
+"~*.*text/xml.*"              "xml";
+"~*.*application/xml.*"       "xml";
+"~*.*application/jso.*"       "json";
+"~*.*application/xhtml+xml.*" "html";
+

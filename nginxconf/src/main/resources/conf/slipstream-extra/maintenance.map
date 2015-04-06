@@ -1,0 +1,18 @@
+# This file define which IPs will receive an error page which explain that the application is in maintenance.
+# 0 - Maintenance disabled
+# 1 - Maintenance enabled
+# One IP per line
+
+default  0;
+
+# Localhost
+"~^127\.[0-9]+\.[0-9]+\.[0-9]+$" 0;
+
+# Autoconfig IPs
+# "~^169\.254\.[0-9]+\.[0-9]+$"  0;
+
+# Pivate subnets
+# "~^10\.[0-9]+\.[0-9]+\.[0-9]+$"  0;
+# "~^192\.168\.[0-9]+\.[0-9]+$"    0;
+# "~^172\.(1[6-9]|2[0-9]|3[0-1])\.[0-9]+\.[0-9]+$"  0;
+

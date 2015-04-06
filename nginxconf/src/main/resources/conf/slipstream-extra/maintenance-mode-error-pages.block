@@ -1,0 +1,32 @@
+# Define custom error pages and allow to set the server in maintenance mode.
+
+# Please add the following lines in http:
+#
+#    map $http_accept $type {
+#        include      conf.d/slipstream-extra/http_accept-type.map;
+#    }
+#
+#    map $remote_addr $maintenance {
+#        include      conf.d/slipstream-extra/maintenance.map;
+#    }
+
+error_page 404 /errors/404.$type;  # Not Found
+error_page 429 /errors/429.$type;  # Too Many Requests
+error_page 502 /errors/502.$type;  # Bad Gateway
+error_page 503 @maintenance;       # Service Unavailable
+error_page 504 /errors/504.$type;  # Gateway Time-out
+
+location /errors/ {
+    root /opt/slipstream/server/webapps/slipstream.war/static-content;
+    internal;
+}
+
+location @maintenance {
+    root /opt/slipstream/server/webapps/slipstream.war/static-content;
+    rewrite ^(.*)$ /errors/503.$type break;
+}
+
+if ($maintenance) {
+    return 503;
+}
+

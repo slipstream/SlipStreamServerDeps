@@ -42,7 +42,6 @@
     <connection>${scm.read}/SlipStreamServerDeps.git</connection>
     <developerConnection>${scm.write}/SlipStreamServerDeps.git</developerConnection>
     <url>${scm.public}/SlipStreamServerDeps</url>
-    <tag>v2.6-community</tag>
   </scm>
 
 </project>

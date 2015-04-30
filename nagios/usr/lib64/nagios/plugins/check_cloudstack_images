@@ -1,0 +1,173 @@
+#!/usr/bin/python
+
+# Based on: https://gist.github.com/swill/1468908
+
+import sys
+import urllib
+import urllib2
+import hmac
+import hashlib
+import base64
+import json
+from optparse import OptionParser, OptParseError
+
+
+class CloudstackAPI(object):
+    """
+    Login and run queries against the Cloudstack API.
+    Example Usage: 
+    cs_api = CloudstackAPI(api_key='api_key', secret_key='secret_key'))
+    accounts = cs_api.request(dict({'command':'listAccounts'}))
+    
+    """
+    
+    def __init__(self, protocol='https', host='127.0.0.1:8080', uri='/client/api', api_key=None, secret_key=None, logging=False):        
+        self.protocol = protocol
+        self.host = host
+        self.uri = uri
+        self.api_key = api_key
+        self.secret_key = secret_key
+        self.errors = []
+        self.logging = logging
+    
+    def make_signature(self, params):
+        signature = [(k.lower(), v) for k, v in list(params.items())]
+        signature.sort(key=lambda x: x[0])
+        signature = urllib.urlencode(signature)
+        signature = signature.lower().replace('+', '%20')
+        signature = hmac.new(b(self.secret_key), msg=b(signature), digestmod=hashlib.sha1)
+        return base64.b64encode(b(signature.digest()))
+        
+    def request(self, params):
+        """Builds a query from params and return a json object of the result or None"""
+        if self.api_key and self.secret_key:
+            # add the default and dynamic params
+            params['response'] = 'json'
+            params['apiKey'] = self.api_key
+
+            # build the query string
+            query_params = map(lambda (k,v):k+"="+urllib.quote(str(v)), params.items())
+            query_string = "&".join(query_params)
+            
+            # build signature
+            query_params.sort()
+            signature_string = "&".join(query_params).lower()
+            signature = urllib.quote(base64.b64encode(hmac.new(self.secret_key, signature_string, hashlib.sha1).digest()))
+
+            # final query string...
+            url = self.protocol+"://"+self.host+self.uri+"?"+query_string+"&signature="+signature
+
+            self.error = ''
+            output = None
+            try:
+                output = json.loads(urllib2.urlopen(url).read())
+            except urllib2.HTTPError, e:
+                self.error = "HTTPError %s: %s" % (e.code, e.reason)
+            except urllib2.URLError, e:
+                self.error = "URLError: %s" % e.reason
+            
+            if output:
+                output = output[(params['command']).lower()+'response']
+            
+            if self.logging:
+                print >> sys.stderr, 'request: %s' % url
+                if output:
+                    print >> sys.stderr, 'response: '
+                    pprint.pprint(output, sys.stderr, 2)
+                else:
+                    print >> sys.stderr, self.error
+                
+            return output
+        else:
+            self.errors.append("missing api_key and/or secret_key in the constructor")
+            return None
+
+
+class OptionParserForNagios(OptionParser):
+    def error(self, msg):
+        raise OptParseError(msg)
+
+
+def parse_options():
+    # Using optparse because argparse is not available in Python 2.6
+    parser = OptionParserForNagios(description='This check verify if the provided image ids are available on a CloudStack Cloud.')
+    parser.add_option('-v', '--verbose',    dest='verbose',    help='', action='store_true', default=False)
+    parser.add_option('-k', '--api-key',    dest='api_key',    help='API Key', metavar='KEY')
+    parser.add_option('-s', '--secret-key', dest='secret_key', help='Secret Key', metavar='KEY')
+    parser.add_option('-p', '--protocol',   dest='protocol',   help='Protocol [http|https] (default: "https")', default='https', metavar='PROTOCOL')
+    parser.add_option('-H', '--host',       dest='host',       help='Host (api.example.com)', metavar='HOST')
+    parser.add_option('-u', '--uri',        dest='uri',        help='URI (default: "/client/api") ', default='/client/api', metavar='URI')
+    parser.add_option('-I', '--image-ids',  dest='image_ids',  help='Image IDs (comma separated list)', metavar='IMAGE_IDS')
+    parser.add_option('-i', '--image-id',   dest='image_id',   help='Image ID (can be used multiple times)', action='append', metavar='IMAGE_ID')
+    (options, args) = parser.parse_args()
+    return (parser, options, args)
+
+def check_mandatory_option_exist(parser, options, name):
+    if not parser.has_option(name):
+        parser.error("The mandatory option %s doesn't exist." % name)
+    elif getattr(options, parser.get_option(name).dest, None) is not None:
+        return True
+    return False
+
+def get_missing_mandatory_options(parser, options, mandatory_options):
+    return [name for name in mandatory_options if not check_mandatory_option_exist(parser, options, name)]
+
+def check_mandatory_options(parser, options, mandatory_options):
+    missing_list = []
+    for opt in mandatory_options:
+        if hasattr(opt, '__iter__'):
+            opt_names = opt
+            opt_mis = get_missing_mandatory_options(parser, options, opt_names)
+            if len(opt_mis) >= len(opt_names):
+                missing_list.append(' or '.join(opt_names))
+        
+        elif isinstance(opt, basestring):
+            if not check_mandatory_option_exist(parser, options, opt):
+                missing_list.append(opt)
+                
+        else:
+            parser.error('The type of "%s" is invalid: %s.' % (opt, type(opt)))
+    
+    if missing_list:
+        missing_options = ', '.join(missing_list)
+        parser.error('The following mandatory options were not provided: %s' % missing_options)
+
+def get_image_ids(options):
+    cs_api = CloudstackAPI(protocol=options.protocol, host=options.host, uri=options.uri, 
+                           api_key=options.api_key, secret_key=options.secret_key)
+    templates = cs_api.request({'command':'listTemplates', 'templatefilter':'executable'})['template']
+    
+    # Using list comprehension because set comprehension is not available in Python 2.6
+    return set([image['id'] for image in templates if 'id' in image])
+
+
+if __name__ == "__main__":
+    options = None
+    try:
+        (parser, options, args) = parse_options()
+        check_mandatory_options(parser, options, ['--api-key', '--secret-key', '--host', ('--image-id', '--image-ids')])
+        available_image_ids = get_image_ids(options)
+        
+        image_ids = []
+        if options.image_ids is not None:
+            image_ids += options.image_ids.split(',')
+        if options.image_id is not None:
+            image_ids += options.image_id
+        image_ids = set(image_ids)
+        
+        if(image_ids <= available_image_ids):
+            print 'OK - All of the %d image ids are available' % len(image_ids)
+            quit(0)
+        else:
+            missing_image_ids = image_ids - available_image_ids
+            print 'ERROR - The following %s image ids out of %s image ids are not available:\n%s' \
+                    % (len(missing_image_ids), len(image_ids), '\n'.join(missing_image_ids))
+            quit(2)
+        
+    except Exception as e:
+        print 'INTERNAL ERROR - %s' % e
+        if options is not None and options.verbose:
+            sys.excepthook(*sys.exc_info())
+        quit(3)
+    
+

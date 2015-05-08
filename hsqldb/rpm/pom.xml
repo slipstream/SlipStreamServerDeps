@@ -95,7 +95,7 @@
                               <obsolete>slipstream-hsqldb</obsolete>
 		            </obsoletes>
 					<requires>
-						<require>java-1.7.0-openjdk</require>
+						<require>java-1.8.0-openjdk</require>
 						<require>slipstream-useradd${slipstream.edition}</require>
 					</requires>
 					<mappings>

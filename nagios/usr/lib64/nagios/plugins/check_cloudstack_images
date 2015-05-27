@@ -160,8 +160,8 @@ if __name__ == "__main__":
             quit(0)
         else:
             missing_image_ids = image_ids - available_image_ids
-            print 'ERROR - The following %s image ids out of %s image ids are not available:\n%s' \
-                    % (len(missing_image_ids), len(image_ids), '\n'.join(missing_image_ids))
+            print 'ERROR - The following %s image ids out of %s image ids are not available: %s' \
+                    % (len(missing_image_ids), len(image_ids), ', '.join(missing_image_ids))
             quit(2)
         
     except Exception as e:

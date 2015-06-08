@@ -35,7 +35,7 @@
           <group>Applications/Engineering</group>
           <vendor>SixSq</vendor>
           <packager>SixSq</packager>
-          <license>Apache 2.0</license>
+          <license>SixSq Commercial License</license>
           <url>http://sixsq.com</url>
           <needarch>noarch</needarch>
 

@@ -21,7 +21,7 @@
       </excludes>
     </fileSet>
     <fileSet>
-        <directory>${project.build.directory}/dependency/backports.ssl_match_hostname-${ssl-match-hostname.version}/src/</directory>
+        <directory>${project.build.directory}/dependency/backports.ssl_match_hostname-${ssl-match-hostname.version}/src/backports</directory>
       <directoryMode>755</directoryMode>
       <fileMode>644</fileMode>
       <outputDirectory>backports</outputDirectory>

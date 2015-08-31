@@ -2,12 +2,12 @@
   <id>bundle</id>
 
   <includeBaseDirectory>false</includeBaseDirectory>
-  
+
   <formats>
     <format>zip</format>
     <format>tar.gz</format>
   </formats>
-  
+
   <fileSets>
 
     <fileSet>
@@ -20,7 +20,17 @@
         <exclude>**/*.pyc</exclude>
       </excludes>
     </fileSet>
-    
+    <fileSet>
+        <directory>${project.build.directory}/dependency/backports.ssl_match_hostname-${ssl-match-hostname.version}/src/</directory>
+      <directoryMode>755</directoryMode>
+      <fileMode>644</fileMode>
+      <outputDirectory>backports</outputDirectory>
+      <excludes>
+        <exclude>**/*.pyc</exclude>
+        <exclude>**/*.pyo</exclude>
+      </excludes>
+    </fileSet>
+
   </fileSets>
-  
+
 </assembly>

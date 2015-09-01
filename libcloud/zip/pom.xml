@@ -12,6 +12,10 @@
     <version>2.16-SNAPSHOT</version>
   </parent>
 
+  <properties>
+      <ssl-match-hostname.version>3.2a3</ssl-match-hostname.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.libcloud</groupId>
@@ -39,7 +43,6 @@
         </executions>
       </plugin>
 
-<!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -55,12 +58,12 @@
               <executable>mkdir</executable>
               <arguments>
                 <argument>-p</argument>
-                <argument>${project.build.directory}</argument>
+                <argument>${project.build.directory}/dependency</argument>
               </arguments>
             </configuration>
           </execution>
           <execution>
-            <id>get-libcloud</id>
+            <id>get-backports</id>
             <phase>process-resources</phase>
             <goals>
               <goal>exec</goal>
@@ -70,33 +73,29 @@
               <arguments>
                 <argument>-sSfL</argument>
                 <argument>-o</argument>
-                <argument>${project.build.directory}/apache-libcloud-${libcloud.version}.tar.bz2</argument>
-                <argument>http://pypi.python.org/packages/source/a/apache-libcloud/apache-libcloud-${libcloud.version}.tar.bz2</argument>
+                <argument>${project.build.directory}/dependency/backports.ssl_match_hostname-${ssl-match-hostname.version}.tar.gz</argument>
+                <argument>https://pypi.python.org/packages/source/b/backports.ssl_match_hostname/backports.ssl_match_hostname-${ssl-match-hostname.version}.tar.gz</argument>
               </arguments>
             </configuration>
           </execution>
           <execution>
-            <id>unpack-libcloud</id>
+            <id>unpack-backports</id>
             <phase>process-resources</phase>
             <goals>
               <goal>exec</goal>
             </goals>
             <configuration>
-              <workingDirectory>${project.build.directory}</workingDirectory>
+              <workingDirectory>${project.build.directory}/dependency</workingDirectory>
               <executable>tar</executable>
               <arguments>
-                <argument>XXXXstrip-components</argument>
-                <argument>1</argument>
-                <argument>-jxvf</argument>
-                <argument>apache-libcloud-${libcloud.version}.tar.bz2</argument>
-                <argument>apache-libcloud-${libcloud.version}/libcloud</argument>
+                <argument>-zxvf</argument>
+                <argument>backports.ssl_match_hostname-${ssl-match-hostname.version}.tar.gz</argument>
               </arguments>
             </configuration>
           </execution>
 
         </executions>
       </plugin>
--->
 
 <!--
       <plugin>

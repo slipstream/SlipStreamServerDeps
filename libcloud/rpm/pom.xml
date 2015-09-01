@@ -59,6 +59,7 @@
                 <argument>-C</argument>
                 <argument>${project.build.directory}/dependency</argument>
                 <argument>libcloud</argument>
+                <argument>backports</argument>
               </arguments>
             </configuration>
           </execution>

@@ -46,7 +46,7 @@ class CloudstackAPI(object):
             params['apiKey'] = self.api_key
 
             # build the query string
-            query_params = map(lambda (k,v):k+"="+urllib.quote(str(v)), params.items())
+            query_params = map(lambda (k,v):k+"="+urllib.quote(str(v),safe=''), params.items())
             query_string = "&".join(query_params)
             
             # build signature

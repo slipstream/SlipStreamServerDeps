@@ -1,7 +1,0 @@
-#!/bin/bash
-set -e
-for db in slipstream ssclj; do
-    java -jar /opt/hsqldb/lib/sqltool.jar \
-       --inlineRc=url=jdbc:hsqldb:hsql://localhost:9001/${db},user=sa,password= \
-       --sql 'SHUTDOWN;' || true
-done

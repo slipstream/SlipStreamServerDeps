@@ -1,0 +1,15 @@
+[Unit]
+Description=Hsqldb Service
+After=syslog.target network.target
+Before=ssclj.service slipstream.service
+
+[Service]
+RemainAfterExit=yes
+Type=oneshot
+ExecStart=/opt/hsqldb/sample/hsqldb.init start
+ExecStop=/opt/hsqldb/sample/hsqldb.init stop
+ExecReload=/opt/hsqldb/sample/hsqldb.init restart
+
+[Install]
+WantedBy=multi-user.target
+

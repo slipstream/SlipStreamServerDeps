@@ -53,29 +53,6 @@
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>update-initd</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>sed</executable>
-							<arguments>
-								<argument>-i</argument>
-								<argument>-e</argument>
-								<argument>s/^MAX_START_SECS=.*$/MAX_START_SECS=15/;s/#chkconfig:.*/# chkconfig: 36 70 35/</argument>
-								<argument>${project.build.directory}/hsqldb/sample/hsqldb.init</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>rpm-maven-plugin</artifactId>
 				<extensions>true</extensions>
 				<configuration>
@@ -132,15 +109,18 @@
 								</source>
 							</sources>
 						</mapping>
-                        <mapping>
-                            <directory>/etc/rc.d/init.d</directory>
-                            <sources>
-                                <softlinkSource>
-                                    <destination>hsqldb</destination>
-                                    <location>/opt/hsqldb/sample/hsqldb.init</location>
-                                </softlinkSource>
-                            </sources>
-                        </mapping>
+						<mapping>
+							<directory>/usr/lib/systemd/system</directory>
+							<filemode>644</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<directoryIncluded>false</directoryIncluded>
+							<sources>
+								<source>
+									<location>src/etc/hsqldb.service</location>
+								</source>
+							</sources>
+						</mapping>
 
 						<mapping>
 							<directory>/opt/hsqldb/data</directory>
@@ -175,26 +155,12 @@
 							</sources>
 						</mapping>
 
-						<mapping>
-                            <directory>/usr/sbin</directory>
-							<filemode>755</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-                                    <location>src/sbin/ss-db-shutdown</location>
-								</source>
-							</sources>
-						</mapping>
-
 					</mappings>
 
 					<postinstallScriptlet>
 						<script>
-/sbin/chkconfig --add hsqldb
-/bin/chown -R slipstream: /opt/slipstream/SlipStreamDB
-            </script>
+/usr/bin/systemctl enable hsqldb.service
+						</script>
 					</postinstallScriptlet>
 
 				</configuration>

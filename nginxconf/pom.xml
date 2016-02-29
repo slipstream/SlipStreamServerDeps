@@ -52,14 +52,13 @@ NGINX_DEFAULT=/etc/nginx/conf.d/default.conf
 
 /opt/slipstream/server/sbin/generate-nginx-certificate.sh || true
 
-/sbin/service nginx reload || /sbin/service nginx start
-/sbin/chkconfig --add nginx
+/usr/bin/systemctl enable nginx
 </script>
           </postinstallScriptlet>
 
           <postremoveScriptlet>
             <script>
-/sbin/service nginx reload || true
+/usr/bin/systemctl reload nginx || true
 </script>
           </postremoveScriptlet>
 
@@ -93,10 +92,10 @@ NGINX_DEFAULT=/etc/nginx/conf.d/default.conf
 	    </mapping>
 	    
 	    <mapping>
-	      <directory>/tmp/slipstream/nginx/cache</directory>
-	      <filemode>664</filemode>
-	      <username>slipstream</username>
-	      <groupname>slipstream</groupname>
+	      <directory>/var/run/slipstream/nginx/cache</directory>
+	      <filemode>744</filemode>
+	      <username>nginx</username>
+	      <groupname>nginx</groupname>
 	    </mapping>
 
 	  </mappings>

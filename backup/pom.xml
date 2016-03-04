@@ -13,9 +13,7 @@
   </parent>
 
   <properties>
-    <slipstream.base.dir>/opt/slipstream</slipstream.base.dir>
     <installation.dir>${slipstream.base.dir}/backup</installation.dir>
-    <package.os>el6</package.os>
   </properties>
 
   <dependencies>

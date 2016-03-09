@@ -10,3 +10,12 @@
         expires 604800;
         if_modified_since before;
     }
+
+    # Serve terms page
+    location ~* /terms {
+        default_type "text/html";
+        alias /opt/slipstream/server/webapps/slipstream.war/static-content/terms.html;
+        etag on;
+        expires 604800;
+        if_modified_since before;
+    }

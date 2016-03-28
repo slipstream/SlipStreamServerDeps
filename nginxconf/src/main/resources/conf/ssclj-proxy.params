@@ -8,6 +8,8 @@ proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-Proto $scheme;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
+proxy_set_header slipstream-authn-info "";
+
 # The buffering must be turned off to avoid a bug in earlier
 # versions of nginx that caused extremely long response times.
 # (NOTE: the default version of nginx for CentOS 6 has this

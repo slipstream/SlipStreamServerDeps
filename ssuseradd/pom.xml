@@ -9,7 +9,7 @@
 	<parent>
 		<artifactId>SlipStreamServerDeps</artifactId>
 		<groupId>com.sixsq.slipstream</groupId>
-		<version>3.2</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>

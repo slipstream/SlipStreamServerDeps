@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>SlipStreamRiemann-rpm</artifactId>
+	<name>SlipStreamRiemann rpm</name>
+
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.sixsq.slipstream</groupId>
+		<artifactId>SlipStream-Riemann</artifactId>
+		<version>3.4-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.sixsq.slipstream</groupId>
+			<artifactId>SlipStreamRiemann-jar</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+			<classifier>jar-with-dependencies</classifier>
+		</dependency>
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+
+				<executions>
+
+					<execution>
+						<id>copy-jar</id>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/</outputDirectory>
+							<stripVersion>true</stripVersion>
+							<stripClassifier>true</stripClassifier>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.sixsq.slipstream</groupId>
+									<artifactId>SlipStreamRiemann-jar</artifactId>
+									<type>jar</type>
+									<classifier>jar-with-dependencies</classifier>
+									<destFileName>SlipStreamServiceOfferAPI.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<classifier>${package.os}</classifier>
+					<release>${BUILD_NUMBER}.${package.os}</release>
+					<summary>SlipStream Riemann streams</summary>
+					<name>slipstream-riemann${slipstream.edition}</name>
+					<group>Applications/Engineering</group>
+					<vendor>SixSq</vendor>
+					<packager>SixSq</packager>
+					<license>Apache 2.0</license>
+					<url>http://sixsq.com</url>
+					<needarch>noarch</needarch>
+					<description>SlipStream Riemann streams</description>
+					<requires>
+						<require>jre-headless &gt;= 1.8.0</require>
+						<require>slipstream-useradd${slipstream.edition}</require>
+					</requires>
+					<mappings>
+
+						<mapping>
+							<directory>/opt/slipstream/riemann</directory>
+							<filemode>755</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
+						</mapping>
+
+						<mapping>
+							<directory>/opt/slipstream/riemann/streams</directory>
+							<filemode>755</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
+						</mapping>
+
+						<mapping>
+							<directory>/opt/slipstream/riemann/lib</directory>
+							<filemode>755</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
+						</mapping>
+
+						<mapping>
+							<directory>/opt/slipstream/riemann/streams</directory>
+							<configuration>noreplace</configuration>
+							<directoryIncluded>false</directoryIncluded>
+							<filemode>644</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
+							<sources>
+								<source>
+									<location>../streams</location>
+									<includes>
+										<include>nuvlabox-streams.clj</include>
+									</includes>
+								</source>
+							</sources>
+						</mapping>
+
+						<mapping>
+							<directory>/opt/slipstream/riemann/lib</directory>
+							<directoryIncluded>false</directoryIncluded>
+							<filemode>644</filemode>
+							<username>slipstream</username>
+							<groupname>slipstream</groupname>
+							<sources>
+								<source>
+									<location>target</location>
+									<includes>
+										<include>SlipStreamServiceOfferAPI.jar</include>
+									</includes>
+								</source>
+							</sources>
+						</mapping>
+
+
+					</mappings>
+
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>attach-rpm</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attached-rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

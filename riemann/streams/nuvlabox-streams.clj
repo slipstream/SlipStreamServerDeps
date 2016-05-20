@@ -7,7 +7,6 @@
 ;;     (udp-server {:host host})
 ;;     (ws-server  {:host host}))
 
-
 (def expiration-watch       1)
 (def default-ttl            5)
 (def nuvlabox-tag           "nuvlabox")
@@ -56,9 +55,17 @@
             (info "Map states " (if force-nok "force all to nok" "") ":" @states)
             @states))
 
+(defn timestamp-if-online
+  [state-update state]
+  (if (= :ok state)
+    (assoc state-update :last-online (str (java.util.Date.)))
+    state-update))
+
 (defn- update-state
        [name id state]
-       (io (service-offer/update-connector {:id id :state state}))
+       (io (service-offer/update-connector
+             (->  {:id id :state state}
+                  (timestamp-if-online state))))
        (swap! states #(assoc-in % [name :state] state))
        (info "State changed for " name "id: " id ", new state: " state))
 

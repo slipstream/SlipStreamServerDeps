@@ -34,7 +34,7 @@
       (try
         (client/put (str slipstream-endpoint "/api/" (:id c))
                     (merge (cookie-store-authn)
-                           {:body (edn->json (select-keys c [:state]))}
+                           {:body (edn->json (select-keys c [:state :last-online]))}
                            {:headers {"Content-type" ["application/json"]}}))
         (catch Exception e
           (println "exc " e))))

@@ -10,14 +10,6 @@
 (defn edn->json [edn]
   (json/write-str edn))
 
-(defn- name-id
-  [connector]
-  [(get-in connector [:connector :href]) (:id connector)])
-
-(defn- record-connector
-  [m [name id]]
-  (assoc m (keyword name) {:id id :state :nok}))
-
 (def slipstream-endpoint        (env/env :slipstream-endpoint))
 (def slipstream-super-password  (env/env :slipstream-super-password))
 
@@ -32,13 +24,10 @@
 
 (defn list-connectors
   []
-  (let [service-offers (-> (client/get (str slipstream-endpoint "/api/service-offer") (cookie-store-authn))
-                           :body
-                           json->edn
-                           :serviceOffers)]
-    (->> service-offers
-         (map name-id)
-         (reduce record-connector {}))))
+  (-> (client/get (str slipstream-endpoint "/api/service-offer") (cookie-store-authn))
+      :body
+      json->edn
+      :serviceOffers))
 
 (defn update-connector
   [c]

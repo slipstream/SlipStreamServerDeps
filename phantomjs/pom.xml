@@ -73,6 +73,10 @@
               <url>http://sixsq.com</url>
               <needarch>noarch</needarch>
               <description>Phantomjs ${phantomjs.version} packaged for SlipStream</description>
+              <requires>
+                <require>bzip2</require>
+                <require>fontconfig</require>
+              </requires>
 
               <mappings>
 

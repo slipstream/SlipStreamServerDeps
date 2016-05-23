@@ -1,11 +1,11 @@
 (require '[sixsq.slipstream.api.service-offer :as service-offer])
 
-;(logging/init {:file "/var/log/riemann/riemann.log"})
-;
-;(let [host "0.0.0.0"]
-;     (tcp-server {:host host})
-;     (udp-server {:host host})
-;     (ws-server  {:host host}))
+;; (logging/init {:file "/var/log/riemann/riemann.log"})
+;; 
+;; (let [host "0.0.0.0"]
+;;      (tcp-server {:host host})
+;;      (udp-server {:host host})
+;;      (ws-server  {:host host}))
 
 (def expiration-watch       1)
 (def default-ttl            5)
@@ -20,39 +20,91 @@
        (try
          (service-offer/list-connectors)
          (catch Throwable t
-           (warn (str "Unable to get connectors: " (.getMessage t))
-                 {}))))
+           (warn (str "Unable to get connectors: " (.getMessage t)))
+           {})))
 
-(def initial-states (try-get-connectors))
-(def states (atom initial-states))
-(info "states " @states)
+(def states (atom {}))
 
-(defn- update-state
-       [name id state]
-       (io (service-offer/update-connector {:id id :state state}))
-       (swap! states #(assoc-in % [name :state] state))
-       (info "State changed for " name "id: " id ", new state: " state))
+(defn- name-id-state-last-online
+       [connector]
+       {:name         (keyword (get-in connector [:connector :href]))
+        :id           (:id connector)
+        :state        (if (= :ok (-> connector :state keyword)) :ok :nok)
+        :last-online  (:last-online connector)})
+
+(defn- record-connector
+       [m name-id-state-last-online]
+       (assoc
+         m
+         (:name name-id-state-last-online)
+         (dissoc name-id-state-last-online :name)))
+
+(defn- fetch-topology
+       []
+       (info "Fetching map states")
+       (->>  (try-get-connectors)
+             (map name-id-state-last-online)
+             (reduce record-connector {})))
+
+(defn- all-states-nok
+       [map-states]
+       (into {} (map (fn[[k v]] [k (assoc v :state :nok)]) map-states)))
+
+(defn- build-topology!
+       [& [{:keys [force-nok]}]]
+       (let [topology (cond-> (fetch-topology)
+                              force-nok all-states-nok)]
+            (reset! states topology)
+            (info "Map states " (if force-nok "force all to nok" "") ":" @states)
+            @states))
+
+(defn- update-state!
+  [name state]
+  (swap! states #(assoc-in % [name :state] state))
+  (info "State changed for " name ", new state: " state))
+
+(defn- update-last-online!
+  [name state]
+  (when (= :ok state)
+    (let [new-last-online (str (java.util.Date.))]
+      (swap! states #(assoc-in % [name :last-online] new-last-online))
+      (info "Last online changed for " name " with: " new-last-online))))
+
+(defn- send-state
+       [name id-state-last-online]
+       (io (service-offer/update-connector id-state-last-online))
+       (info "State sent for " name ": " id-state-last-online))
+
+(defn- update-send-state!
+       [name id state last-online]
+       (update-state! name state)
+       (update-last-online! name state)
+       (send-state name (name @states)))
 
 (defn- receive-state
        [event state]
-       (let [name (-> event :nuvlabox-name keyword)
-             states @states
-             current-state (get-in states [name :state])
-             id (get-in states [name :id])]
+       (let [name           (-> event :nuvlabox-name keyword)
+             states         @states
+             states         (if-not (contains? states name) (build-topology!) states)
+               current-state  (get-in states [name :state])
+             id             (get-in states [name :id])
+             last-online    (get-in states [name :last-online])]
             (if-not id
-                    (info "unknown name " name)
+                    (warn "Unknown name : " name)
                     (if-not (= state current-state)
-                            (update-state name id state)
-                            (info "No change for " name ", state: " state)))))
+                      (update-send-state! name id state last-online)
+                      (update-last-online! name state)))))
 
-(defn- initial-update-all-to-nok
+(defn- send-all-states
        []
-       (doseq [[name id-state] @states]
-              (update-state name (:id id-state) :nok)))
+       (doseq [[name id-state-last-online] @states]
+              (send-state name id-state-last-online)))
 
 (let [index (default :ttl default-ttl (index))]
 
-     (initial-update-all-to-nok)
+     (build-topology! {:force-nok true})
+
+     (send-all-states)
 
      (streams
        index

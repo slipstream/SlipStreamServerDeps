@@ -148,6 +148,7 @@
               <username>slipstream</username>
               <groupname>slipstream</groupname>
               <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
               <sources>
                 <source>
                   <location>src/etc/hsqldb.cfg</location>

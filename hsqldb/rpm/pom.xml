@@ -1,184 +1,185 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>Hsqldb-SixSq-rpm</artifactId>
-	<name>HyperSQL packaged by SixSq (RPM)</name>
+  <artifactId>Hsqldb-SixSq-rpm</artifactId>
+  <name>HyperSQL packaged by SixSq (RPM)</name>
 
-	<packaging>pom</packaging>
+  <packaging>pom</packaging>
 
-	<parent>
-		<groupId>com.sixsq.slipstream</groupId>
-		<artifactId>Hsqldb-SixSq-packaging</artifactId>
-		<version>3.5-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>com.sixsq.slipstream</groupId>
+    <artifactId>Hsqldb-SixSq-packaging</artifactId>
+    <version>3.5-SNAPSHOT</version>
+  </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.sixsq.slipstream</groupId>
-			<artifactId>Hsqldb-SixSq-bundle</artifactId>
-			<version>${project.version}</version>
-			<type>tar.gz</type>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.sixsq.slipstream</groupId>
+      <artifactId>Hsqldb-SixSq-bundle</artifactId>
+      <version>${project.version}</version>
+      <type>tar.gz</type>
+    </dependency>
+  </dependencies>
 
-	<build>
+  <build>
 
-		<plugins>
+    <plugins>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
 
-				<executions>
-					<execution>
-						<id>unpack-hsqldb</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}</outputDirectory>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.sixsq.slipstream</groupId>
-									<artifactId>Hsqldb-SixSq-bundle</artifactId>
-									<type>tar.gz</type>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
+        <executions>
+          <execution>
+            <id>unpack-hsqldb</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.sixsq.slipstream</groupId>
+                  <artifactId>Hsqldb-SixSq-bundle</artifactId>
+                  <type>tar.gz</type>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
 
-			</plugin>
+      </plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>rpm-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<classifier>${package.os}</classifier>
-					<release>${BUILD_NUMBER}.${package.os}</release>
-					<summary>HyperSQL ${hsqldb.version} configured for SlipStream server</summary>
-					<name>slipstream-hsqldb${slipstream.edition}</name>
-					<group>Applications/Engineering</group>
-					<vendor>SixSq</vendor>
-					<packager>SixSq</packager>
-					<license>SixSq Commercial License</license>
-					<url>http://sixsq.com</url>
-					<needarch>noarch</needarch>
-					<description>HyperSQL configured for SlipStream server</description>
-		            <obsoletes>
-		              <obsolete>hsqldb-slipstream</obsolete>
-                              <obsolete>slipstream-hsqldb</obsolete>
-		            </obsoletes>
-					<requires>
-						<require>jre-headless &gt;= 1.8.0</require>
-						<require>slipstream-useradd${slipstream.edition}</require>
-					</requires>
-					<mappings>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <classifier>${package.os}</classifier>
+          <release>${BUILD_NUMBER}.${package.os}</release>
+          <summary>HyperSQL ${hsqldb.version} configured for SlipStream server</summary>
+          <name>slipstream-hsqldb${slipstream.edition}</name>
+          <group>Applications/Engineering</group>
+          <vendor>SixSq</vendor>
+          <packager>SixSq</packager>
+          <license>Apache 2.0</license>
+          <url>http://sixsq.com</url>
+          <needarch>noarch</needarch>
+          <description>HyperSQL configured for SlipStream server</description>
+          <obsoletes>
+            <obsolete>hsqldb-slipstream</obsolete>
+            <obsolete>slipstream-hsqldb</obsolete>
+          </obsoletes>
+          <requires>
+            <require>jre-headless &gt;= 1.8.0</require>
+            <require>slipstream-useradd${slipstream.edition}</require>
+          </requires>
+          <mappings>
 
-						<mapping>
-							<directory>/opt/hsqldb</directory>
-							<filemode>755</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-						</mapping>
+            <mapping>
+              <directory>/opt/hsqldb</directory>
+              <filemode>755</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+            </mapping>
 
-						<mapping>
-							<directory>/opt/hsqldb</directory>
-							<filemode>644</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>${project.build.directory}/hsqldb</location>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>/opt/hsqldb</directory>
+              <filemode>644</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>${project.build.directory}/hsqldb</location>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>/opt/hsqldb/sample</directory>
-							<filemode>755</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>${project.build.directory}/hsqldb/sample/hsqldb.init</location>
-								</source>
-							</sources>
-						</mapping>
-						<mapping>
-							<directory>/usr/lib/systemd/system</directory>
-							<filemode>644</filemode>
-							<username>root</username>
-							<groupname>root</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/etc/hsqldb.service</location>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>/opt/hsqldb/sample</directory>
+              <filemode>755</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>${project.build.directory}/hsqldb/sample/hsqldb.init</location>
+                </source>
+              </sources>
+            </mapping>
+            <mapping>
+              <directory>/usr/lib/systemd/system</directory>
+              <filemode>644</filemode>
+              <username>root</username>
+              <groupname>root</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>src/etc/hsqldb.service</location>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>/opt/hsqldb/data</directory>
-							<filemode>664</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/data/server.properties</location>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>/opt/hsqldb/data</directory>
+              <filemode>664</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>src/data/server.properties</location>
+                </source>
+              </sources>
+            </mapping>
 
-						<mapping>
-							<directory>/opt/slipstream/SlipStreamDB</directory>
-							<filemode>755</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-						</mapping>
+            <mapping>
+              <directory>/opt/slipstream/SlipStreamDB</directory>
+              <filemode>755</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+            </mapping>
 
-						<mapping>
-							<directory>/etc</directory>
-							<filemode>664</filemode>
-							<username>slipstream</username>
-							<groupname>slipstream</groupname>
-							<directoryIncluded>false</directoryIncluded>
-							<sources>
-								<source>
-									<location>src/etc/hsqldb.cfg</location>
-								</source>
-							</sources>
-						</mapping>
+            <mapping>
+              <directory>/etc</directory>
+              <filemode>664</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
+              <sources>
+                <source>
+                  <location>src/etc/hsqldb.cfg</location>
+                </source>
+              </sources>
+            </mapping>
 
-					</mappings>
+          </mappings>
 
-					<postinstallScriptlet>
-						<script>
-/usr/bin/systemctl enable hsqldb.service
-						</script>
-					</postinstallScriptlet>
+          <postinstallScriptlet>
+            <script>
+              /usr/bin/systemctl enable hsqldb.service
+            </script>
+          </postinstallScriptlet>
 
-				</configuration>
+        </configuration>
 
-				<executions>
-					<execution>
-						<id>attach-rpm</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attached-rpm</goal>
-						</goals>
-					</execution>
-				</executions>
+        <executions>
+          <execution>
+            <id>attach-rpm</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached-rpm</goal>
+            </goals>
+          </execution>
+        </executions>
 
-			</plugin>
+      </plugin>
 
-		</plugins>
+    </plugins>
 
-	</build>
+  </build>
 
 </project>

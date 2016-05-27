@@ -7,5 +7,5 @@ server {
     ssl_certificate_key /etc/nginx/ssl/server.key;
 
     # Include SlipStream common configuration parameters
-    include conf.d/slipstream.params
+    include conf.d/slipstream.params;
 }

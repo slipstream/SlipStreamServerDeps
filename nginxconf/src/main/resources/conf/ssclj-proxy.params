@@ -2,6 +2,12 @@ proxy_pass http://ssclj_servers;
 
 proxy_http_version 1.1;
 
+set $via "1.1 $host";
+if ($http_via) {
+    set $via "$http_via, $via";
+}
+
+proxy_set_header Via $via;
 proxy_set_header Host $host;
 proxy_set_header Connection "";
 proxy_set_header X-Real-IP $remote_addr;

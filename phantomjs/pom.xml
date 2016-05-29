@@ -20,16 +20,6 @@
     <phantomjs.type>tar.bz2</phantomjs.type>
   </properties>
   
-  <dependencies>
-    <dependency>
-      <groupId>com.github.klieber</groupId>
-      <artifactId>phantomjs</artifactId>
-      <version>${phantomjs.version}</version>
-      <classifier>${phantomjs.classifier}</classifier>
-      <type>${phantomjs.type}</type>
-    </dependency>
-  </dependencies>
-
   <profiles>
     <profile>
       <id>build-phantomjs-rpm</id>
@@ -48,11 +38,23 @@
             <artifactId>maven-dependency-plugin</artifactId>
             <executions>
               <execution>
-                <id>unpack-dependencies</id>
+                <id>unpack-phantomjs</id>
                 <phase>package</phase>
                 <goals>
-                  <goal>unpack-dependencies</goal>
+                  <goal>unpack</goal>
                 </goals>
+		<configuration>
+		  <excludeTransitive>true</excludeTransitive>
+		  <artifactItems>
+		    <artifactItem>
+		      <groupId>com.github.klieber</groupId>
+		      <artifactId>phantomjs</artifactId>
+		      <version>${phantomjs.version}</version>
+		      <classifier>${phantomjs.classifier}</classifier>
+		      <type>${phantomjs.type}</type>
+		    </artifactItem>
+		  </artifactItems>
+		</configuration>
               </execution>
             </executions>
           </plugin>
@@ -71,7 +73,7 @@
               <packager>SixSq</packager>
               <license>SixSq Commercial License</license>
               <url>http://sixsq.com</url>
-              <needarch>noarch</needarch>
+              <needarch>x86_64</needarch>
               <description>Phantomjs ${phantomjs.version} packaged for SlipStream</description>
               <requires>
                 <require>bzip2</require>
@@ -116,7 +118,7 @@
 
               <postinstallScriptlet>
                 <script>
-                  ls -s /usr/local/phantomjs/bin/phantomjs /usr/bin/phantomjs
+                  ln -s /usr/local/phantomjs/phantomjs-${phantomjs.version}-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
                 </script>
               </postinstallScriptlet>
 

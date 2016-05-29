@@ -35,7 +35,7 @@
       <id>build-phantomjs-rpm</id>
       <activation>
         <file>
-          <exists>/usr/bin/rpmbuild</exists>
+          <exists>/usr/local/bin/rpmbuild</exists>
         </file>
       </activation>
 
@@ -69,7 +69,7 @@
               <group>Applications/Engineering</group>
               <vendor>SixSq</vendor>
               <packager>SixSq</packager>
-              <license>SixSq Commercial License</license>
+              <license>Apache 2.0</license>
               <url>http://sixsq.com</url>
               <needarch>noarch</needarch>
               <description>Phantomjs ${phantomjs.version} packaged for SlipStream</description>

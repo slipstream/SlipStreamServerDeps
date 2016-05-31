@@ -50,6 +50,7 @@
                   <directory>/etc/yum.repos.d</directory>
                   <filemode>644</filemode>
                   <directoryIncluded>false</directoryIncluded>
+                  <configuration>noreplace</configuration>
                   <sources>
                     <source>
                       <location>${basedir}/src/main/config</location>

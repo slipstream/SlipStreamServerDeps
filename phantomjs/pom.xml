@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <artifactId>Phantomjs-SixSq-packaging</artifactId>
+  <name>Phantomjs packaged by SixSq</name>
+  
+  <packaging>pom</packaging>
+  
+  <parent>
+    <groupId>com.sixsq.slipstream</groupId>
+    <artifactId>SlipStreamServerDeps</artifactId>
+    <version>3.5-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <phantomjs.version>2.1.1</phantomjs.version>
+    <phantomjs.classifier>linux-x86_64</phantomjs.classifier>
+    <phantomjs.type>tar.bz2</phantomjs.type>
+  </properties>
+  
+  <profiles>
+    <profile>
+      <id>build-phantomjs-rpm</id>
+      <activation>
+        <file>
+          <exists>/usr/bin/rpmbuild</exists>
+        </file>
+      </activation>
+
+      <build>
+
+        <plugins>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>unpack-phantomjs</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+		<configuration>
+		  <excludeTransitive>true</excludeTransitive>
+		  <artifactItems>
+		    <artifactItem>
+		      <groupId>com.github.klieber</groupId>
+		      <artifactId>phantomjs</artifactId>
+		      <version>${phantomjs.version}</version>
+		      <classifier>${phantomjs.classifier}</classifier>
+		      <type>${phantomjs.type}</type>
+		    </artifactItem>
+		  </artifactItems>
+		</configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>rpm-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <classifier>${package.os}</classifier>
+              <release>${BUILD_NUMBER}.${package.os}</release>
+              <summary>Phantomjs ${phantomjs.version} packaged for SlipStream</summary>
+              <name>slipstream-phantomjs${slipstream.edition}</name>
+              <group>Applications/Engineering</group>
+              <vendor>SixSq</vendor>
+              <packager>SixSq</packager>
+              <license>Apache 2.0</license>
+              <url>http://sixsq.com</url>
+              <needarch>x86_64</needarch>
+              <description>Phantomjs ${phantomjs.version} packaged for SlipStream</description>
+              <requires>
+                <require>bzip2</require>
+                <require>fontconfig</require>
+              </requires>
+
+              <mappings>
+
+                <mapping>
+                  <directory>/usr/local/phantomjs</directory>
+                  <filemode>644</filemode>
+                  <directoryIncluded>true</directoryIncluded>
+                  <sources>
+                    <source>
+                      <location>${project.build.directory}/dependency/</location>
+                      <excludes>
+                        <exclude>**/bin/*</exclude>
+                        <exclude>**/examples/**/*</exclude>
+                      </excludes>
+                    </source>
+                  </sources>
+                </mapping>
+
+                <mapping>
+                  <directory>/usr/local/phantomjs</directory>
+                  <filemode>755</filemode>
+                  <directoryIncluded>false</directoryIncluded>
+                  <sources>
+                    <source>
+                      <location>${project.build.directory}/dependency/</location>
+                      <includes>
+                        <include>**/bin/*</include>
+                      </includes>
+                      <excludes>
+                        <exclude>**/examples/**/*</exclude>
+                      </excludes>
+                    </source>
+                  </sources>
+                </mapping>
+
+              </mappings>
+
+              <postinstallScriptlet>
+                <script>
+                  ln -s /usr/local/phantomjs/phantomjs-${phantomjs.version}-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+                </script>
+              </postinstallScriptlet>
+
+              <postremoveScriptlet>
+                <script>
+                  rm -f /usr/bin/phantomjs
+                </script>
+              </postremoveScriptlet>
+
+            </configuration>
+
+            <executions>
+              <execution>
+                <id>attach-rpm</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>attached-rpm</goal>
+                </goals>
+              </execution>
+            </executions>
+
+          </plugin>
+
+        </plugins>
+
+      </build>
+      
+    </profile>
+  </profiles>
+  
+</project>

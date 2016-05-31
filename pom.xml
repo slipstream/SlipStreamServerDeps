@@ -19,6 +19,7 @@
   <modules>
     <module>hsqldb</module>
     <module>libcloud</module>
+    <module>phantomjs</module>
   </modules>
 
   <profiles>

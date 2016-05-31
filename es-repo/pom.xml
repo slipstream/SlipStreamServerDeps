@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  
+  <artifactId>Elasticsearch-2.0-repo</artifactId>
+  <name>Elasticsearch-2.0-repo</name>
+  
+  <packaging>pom</packaging>
+  
+  <parent>
+    <groupId>com.sixsq.slipstream</groupId>
+    <artifactId>SlipStreamServerDeps</artifactId>
+    <version>3.5-SNAPSHOT</version>
+  </parent>
+
+  <profiles>
+    <profile>
+      <id>build-es-repo-rpm</id>
+      <activation>
+        <file>
+          <exists>/usr/bin/rpmbuild</exists>
+        </file>
+      </activation>
+
+      <build>
+
+        <plugins>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>rpm-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <classifier>${package.os}</classifier>
+              <release>${BUILD_NUMBER}.${package.os}</release>
+              <summary>Elasticsearch 2.x repository configuration</summary>
+              <name>slipstream-es-repo${slipstream.edition}</name>
+              <group>Applications/Engineering</group>
+              <vendor>SixSq</vendor>
+              <packager>SixSq</packager>
+              <license>Apache 2.0</license>
+              <url>http://sixsq.com</url>
+              <needarch>noarch</needarch>
+              <description>Elasticsearch 2.x repository configuration</description>
+
+              <mappings>
+
+                <mapping>
+                  <directory>/etc/yum.repos.d</directory>
+                  <filemode>644</filemode>
+                  <directoryIncluded>false</directoryIncluded>
+                  <configuration>noreplace</configuration>
+                  <sources>
+                    <source>
+                      <location>${basedir}/src/main/config</location>
+                      <includes>
+                        <include>*.repo</include>
+                      </includes>
+                    </source>
+                  </sources>
+                </mapping>
+
+                <mapping>
+                  <directory>/etc/pki/rpm-gpg</directory>
+                  <filemode>644</filemode>
+                  <directoryIncluded>false</directoryIncluded>
+                  <sources>
+                    <source>
+                      <location>${basedir}/src/main/config</location>
+                      <includes>
+                        <include>RPM-GPG-KEY*</include>
+                      </includes>
+                    </source>
+                  </sources>
+                </mapping>
+
+              </mappings>
+
+            </configuration>
+
+            <executions>
+              <execution>
+                <id>attach-rpm</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>attached-rpm</goal>
+                </goals>
+              </execution>
+            </executions>
+
+          </plugin>
+
+        </plugins>
+
+      </build>
+      
+    </profile>
+  </profiles>
+  
+</project>

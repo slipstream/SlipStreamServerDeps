@@ -35,6 +35,7 @@
         <module>nginxconf</module>
         <module>ssuseradd</module>
         <module>graphite</module>
+        <module>es-repo</module>
       </modules>
     </profile>
   </profiles>

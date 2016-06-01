@@ -1,0 +1,38 @@
+# Common SlipStream configuration parameters (has to be included inside a server block)
+
+location / {
+    include conf.d/slipstream-proxy.params;
+}
+
+location /auth {
+    include conf.d/ssclj-proxy.params;
+}
+
+location /api {
+    include conf.d/ssclj-proxy.params;
+}
+
+# Limit the number of connections and the request rate per client and per server
+include conf.d/slipstream-extra/limits.block;
+
+# Enable compression & decompression
+include conf.d/slipstream-extra/compression.block;
+
+# Cache GETs of ss:state of all the runs.
+include conf.d/slipstream-extra/cache-state.block;
+
+# Serve all static content directly by nginx.
+include conf.d/slipstream-extra/static-content.block;
+
+# Increase the timeout for resources that may take time to complete.
+include conf.d/slipstream-extra/long-timeout.block;
+
+# Limit the number of reports that can be sent simultaneously.
+include conf.d/slipstream-extra/limit-reports.block;
+
+# Serve custom error pages and allow to set the server in maintenance mode.
+include conf.d/slipstream-extra/maintenance-mode-error-pages.block;
+
+# Custom block files that can be added by plugins
+include conf.d/slipstream-extra/slipstream-custom-*.block;
+

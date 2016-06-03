@@ -1,3 +1,6 @@
 #!/bin/sh
 
-openssl dhparam -out /etc/nginx/ssl/dhparam.pem 4096
+numbits=${1:-4096}
+outpem=${2:-/etc/nginx/ssl/dhparam.pem}
+
+openssl dhparam -out $outpem $numbits

@@ -1,7 +1,7 @@
 [Unit]
 Description=Hsqldb Service
 After=syslog.target network.target
-Before=ssclj.service slipstream.service
+Before=slipstream.service
 
 [Service]
 RemainAfterExit=yes
@@ -12,4 +12,3 @@ ExecReload=/opt/hsqldb/sample/hsqldb.init restart
 
 [Install]
 WantedBy=multi-user.target
-

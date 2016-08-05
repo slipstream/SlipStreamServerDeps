@@ -12,3 +12,4 @@ ExecReload=/opt/hsqldb/sample/hsqldb.init restart
 
 [Install]
 WantedBy=multi-user.target
+

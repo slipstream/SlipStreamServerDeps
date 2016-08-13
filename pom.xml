@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>SlipStreamServerDeps</artifactId>
-  <version>3.10-SNAPSHOT</version>
+  <version>3.10</version>
   <name>SlipStream Server Dependencies</name>
   <description>Packaging of SlipStream Server dependencies</description>
 
@@ -12,7 +12,7 @@
   <parent>
     <groupId>com.sixsq.slipstream</groupId>
     <artifactId>SlipStream</artifactId>
-    <version>3.10-SNAPSHOT</version>
+    <version>3.10</version>
     <relativePath>../SlipStream</relativePath>
   </parent>
 
@@ -44,7 +44,7 @@
     <connection>${scm.read}/SlipStreamServerDeps.git</connection>
     <developerConnection>${scm.write}/SlipStreamServerDeps.git</developerConnection>
     <url>${scm.public}/SlipStreamServerDeps</url>
-    <tag>HEAD</tag>
+    <tag>v3.10-community</tag>
   </scm>
 
 </project>

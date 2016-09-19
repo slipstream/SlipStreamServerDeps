@@ -1,0 +1,7 @@
+{
+  "type": "s3",
+  "settings": {
+    "bucket": "slipstream-backup-es",
+    "region": "eu-west"
+  }
+}

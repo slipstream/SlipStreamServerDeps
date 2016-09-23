@@ -1,0 +1,1 @@
+30 */4 * * * slipstream (date --utc; /opt/slipstream/backup/slipstream-es-backup.sh) >> /opt/slipstream/backup/slipstream-es-backup.log 2>&1

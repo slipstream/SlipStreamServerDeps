@@ -8,7 +8,7 @@ if ($http_via) {
 }
 
 proxy_set_header Via $via;
-proxy_set_header Host $host;
+proxy_set_header Host $http_host;
 proxy_set_header Connection "";
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-Proto $scheme;

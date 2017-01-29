@@ -14,88 +14,81 @@
     <version>3.21-SNAPSHOT</version>
   </parent>
 
-  <profiles>
-    <profile>
-      <id>build-es-repo-rpm</id>
-      <activation>
-        <file>
-          <exists>/usr/bin/rpmbuild</exists>
-        </file>
-      </activation>
+  <build>
 
-      <build>
+    <plugins>
 
-        <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rpm-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <classifier>${package.os}</classifier>
+          <release>${BUILD_NUMBER}.${package.os}</release>
+          <summary>Elasticsearch 2.x repository configuration</summary>
+          <name>slipstream-es-repo</name>
+          <group>Applications/Engineering</group>
+          <vendor>SixSq</vendor>
+          <packager>SixSq</packager>
+          <license>Apache 2.0</license>
+          <url>http://sixsq.com</url>
+          <needarch>noarch</needarch>
+          <description>Elasticsearch 2.x repository configuration</description>
 
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>rpm-maven-plugin</artifactId>
-            <extensions>true</extensions>
-            <configuration>
-              <classifier>${package.os}</classifier>
-              <release>${BUILD_NUMBER}.${package.os}</release>
-              <summary>Elasticsearch 2.x repository configuration</summary>
-              <name>slipstream-es-repo${slipstream.edition}</name>
-              <group>Applications/Engineering</group>
-              <vendor>SixSq</vendor>
-              <packager>SixSq</packager>
-              <license>Apache 2.0</license>
-              <url>http://sixsq.com</url>
-              <needarch>noarch</needarch>
-              <description>Elasticsearch 2.x repository configuration</description>
+          <obsoletes>
+            <obsolete>slipstream-es-repo-community</obsolete>
+            <obsolete>slipstream-es-repo-enterprise</obsolete>
+          </obsoletes>
 
-              <mappings>
+          <mappings>
 
-                <mapping>
-                  <directory>/etc/yum.repos.d</directory>
-                  <filemode>644</filemode>
-                  <directoryIncluded>false</directoryIncluded>
-                  <configuration>noreplace</configuration>
-                  <sources>
-                    <source>
-                      <location>${basedir}/src/main/config</location>
-                      <includes>
-                        <include>*.repo</include>
-                      </includes>
-                    </source>
-                  </sources>
-                </mapping>
+            <mapping>
+              <directory>/etc/yum.repos.d</directory>
+              <filemode>644</filemode>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
+              <sources>
+                <source>
+                  <location>${basedir}/src/main/config</location>
+                  <includes>
+                    <include>*.repo</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
 
-                <mapping>
-                  <directory>/etc/pki/rpm-gpg</directory>
-                  <filemode>644</filemode>
-                  <directoryIncluded>false</directoryIncluded>
-                  <sources>
-                    <source>
-                      <location>${basedir}/src/main/config</location>
-                      <includes>
-                        <include>RPM-GPG-KEY*</include>
-                      </includes>
-                    </source>
-                  </sources>
-                </mapping>
+            <mapping>
+              <directory>/etc/pki/rpm-gpg</directory>
+              <filemode>644</filemode>
+              <directoryIncluded>false</directoryIncluded>
+              <sources>
+                <source>
+                  <location>${basedir}/src/main/config</location>
+                  <includes>
+                    <include>RPM-GPG-KEY*</include>
+                  </includes>
+                </source>
+              </sources>
+            </mapping>
 
-              </mappings>
+          </mappings>
 
-            </configuration>
+        </configuration>
 
-            <executions>
-              <execution>
-                <id>attach-rpm</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>attached-rpm</goal>
-                </goals>
-              </execution>
-            </executions>
+        <executions>
+          <execution>
+            <id>attach-rpm</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attached-rpm</goal>
+            </goals>
+          </execution>
+        </executions>
 
-          </plugin>
+      </plugin>
 
-        </plugins>
+    </plugins>
 
-      </build>
-      
-    </profile>
-  </profiles>
+  </build>
   
 </project>

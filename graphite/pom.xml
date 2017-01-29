@@ -12,10 +12,6 @@
     <version>3.21-SNAPSHOT</version>
   </parent>
   
-  <dependencies>
-    
-  </dependencies>
-  
   <build>
     
     <plugins>
@@ -95,7 +91,7 @@
           <classifier>${package.os}</classifier>
           <release>${BUILD_NUMBER}.${package.os}</release>
           <summary>SlipStream: graphite packaged by SixSq</summary>
-          <name>slipstream-graphite${slipstream.edition}</name>
+          <name>slipstream-graphite</name>
           <group>Applications/Engineering</group>
           <vendor>SixSq</vendor>
           <packager>SixSq</packager>
@@ -104,7 +100,8 @@
           <needarch>noarch</needarch>
 
           <obsoletes>
-            <obsolete>slipstream-graphite</obsolete>
+            <obsolete>slipstream-graphite-community</obsolete>
+            <obsolete>slipstream-graphite-enterprise</obsolete>
           </obsoletes>
 
           <description>
@@ -119,7 +116,7 @@
             <require>python-devel</require>
             <require>python-pip</require>
             <require>python-virtualenv</require>
-            <require>slipstream-useradd${slipstream.edition}</require>
+            <require>slipstream-useradd</require>
           </requires>
           
           <mappings>

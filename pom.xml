@@ -38,6 +38,21 @@
         <module>es-repo</module>
       </modules>
     </profile>
+    <profile>
+      <id>build-rpms-local</id>
+      <activation>
+        <file>
+          <exists>/usr/local/bin/rpmbuild</exists>
+        </file>
+      </activation>
+      <modules>
+        <module>backup</module>
+        <module>nginxconf</module>
+        <module>ssuseradd</module>
+        <module>graphite</module>
+        <module>es-repo</module>
+      </modules>
+    </profile>
   </profiles>
 
   <scm>

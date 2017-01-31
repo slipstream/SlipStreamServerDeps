@@ -24,7 +24,7 @@
 	  <classifier>${package.os}</classifier>
 	  <release>${BUILD_NUMBER}.${package.os}</release>
 	  <summary>SlipStream Server nginx configuration</summary>
-	  <name>slipstream-server-nginx-conf${slipstream.edition}</name>
+	  <name>slipstream-server-nginx-conf</name>
 	  <group>Applications/Engineering</group>
 	  <vendor>SixSq</vendor>
 	  <packager>SixSq</packager>
@@ -34,11 +34,12 @@
 	  <description>nginx configuration for SlipStream Server</description>
 
           <obsoletes>
-            <obsolete>slipstream-server-nginx-conf</obsolete>
+            <obsolete>slipstream-server-nginx-conf-community</obsolete>
+            <obsolete>slipstream-server-nginx-conf-enterprise</obsolete>
           </obsoletes>
 	  <requires>
 	    <require>nginx</require>
-            <require>slipstream-useradd${slipstream.edition}</require>
+            <require>slipstream-useradd</require>
 	  </requires>
 
           <postinstallScriptlet>

@@ -62,17 +62,21 @@
 					<classifier>${package.os}</classifier>
 					<release>${BUILD_NUMBER}.${package.os}</release>
 					<summary>SlipStream Riemann streams</summary>
-					<name>slipstream-riemann${slipstream.edition}</name>
+					<name>slipstream-riemann</name>
 					<group>Applications/Engineering</group>
 					<vendor>SixSq</vendor>
 					<packager>SixSq</packager>
 					<license>Apache 2.0</license>
 					<url>http://sixsq.com</url>
 					<needarch>noarch</needarch>
-					<description>SlipStream Riemann streams</description>
+                                        <description>SlipStream Riemann streams</description>
+                                        <obsoletes>
+                                          <obsolete>slipstream-riemann-community</obsolete>
+                                          <obsolete>slipstream-riemann-enterprise</obsolete>
+                                        </obsoletes>
 					<requires>
 						<require>jre-headless &gt;= 1.8.0</require>
-						<require>slipstream-useradd${slipstream.edition}</require>
+						<require>slipstream-useradd</require>
 					</requires>
 					<mappings>
 

@@ -20,6 +20,7 @@
     <module>hsqldb</module>
     <module>libcloud</module>
     <module>phantomjs</module>
+    <module>riemann</module>
   </modules>
 
   <profiles>

@@ -45,7 +45,7 @@
 									<groupId>com.sixsq.slipstream</groupId>
 									<artifactId>SlipStreamRiemann-jar</artifactId>
 									<type>jar</type>
-									<destFileName>SlipStreamServiceOfferAPI.jar</destFileName>
+									<destFileName>SlipStreamRiemann.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

@@ -31,7 +31,7 @@
           <classifier>${package.os}</classifier>
           <release>${BUILD_NUMBER}.${package.os}</release>
           <summary>SlipStream Server Backup</summary>
-          <name>slipstream-server-backup${slipstream.edition}</name>
+          <name>slipstream-server-backup</name>
           <group>Applications/Engineering</group>
           <vendor>SixSq</vendor>
           <packager>SixSq</packager>
@@ -40,7 +40,8 @@
           <needarch>noarch</needarch>
 
           <obsoletes>
-            <obsolete>slipstream-server-backup</obsolete>
+            <obsolete>slipstream-server-backup-community</obsolete>
+            <obsolete>slipstream-server-backup-enterprise</obsolete>
           </obsoletes>
 
           <description>
@@ -51,7 +52,7 @@
             <require>curl</require>
             <require>perl-Digest-HMAC</require>
             <require>sudo</require>
-            <require>slipstream-useradd${slipstream.edition}</require>
+            <require>slipstream-useradd</require>
           </requires>
           <mappings>
 

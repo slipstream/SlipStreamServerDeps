@@ -35,7 +35,8 @@
   pom {:project (get-env :project)
        :version (get-env :version)}
   install {:pom "com.sixsq.slipstream/SlipStreamRiemann-jar"}
-  push {:pom "com.sixsq.slipstream/SlipStreamRiemann-jar"})
+  push {:pom "com.sixsq.slipstream/SlipStreamRiemann-jar"
+        :repo "sixsq"})
 
 (deftask build []
          (comp
@@ -50,11 +51,7 @@
          []
          (comp
            (build)
-           (install)))
-
-(deftask mvn-deploy
-         "build full project through maven"
-         []
-         (comp
-           (mvn-build)
-           (push :repo "sixsq")))
+           (install)
+           (if (= "true" (System/getenv "BOOT_PUSH"))
+             (push)
+             identity)))

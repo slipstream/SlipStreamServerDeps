@@ -1,8 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>Libcloud-SixSq-pom</artifactId>
-  <name>libcloud patched and packaged by SixSq (POM)</name>
+  <artifactId>SlipStream-Riemann</artifactId>
+  <name>SlipStream Riemann streams</name>
 
   <packaging>pom</packaging>
 
@@ -12,13 +14,14 @@
     <version>3.21-SNAPSHOT</version>
   </parent>
 
+
   <modules>
-    <module>zip</module>
+    <module>jar</module>
   </modules>
 
   <profiles>
     <profile>
-      <id>build-libcloud-rpm</id>
+      <id>build-riemann-ss-rpm</id>
       <activation>
         <file>
           <exists>/usr/bin/rpmbuild</exists>
@@ -29,7 +32,7 @@
       </modules>
     </profile>
     <profile>
-      <id>build-libcloud-rpm-local</id>
+      <id>build-riemann-ss-rpm-local</id>
       <activation>
         <file>
           <exists>/usr/local/bin/rpmbuild</exists>
@@ -40,5 +43,5 @@
       </modules>
     </profile>
   </profiles>
-  
+
 </project>

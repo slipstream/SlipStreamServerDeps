@@ -128,7 +128,7 @@
 								<source>
 									<location>target</location>
 									<includes>
-										<include>SlipStreamServiceOfferAPI.jar</include>
+										<include>SlipStreamRiemann.jar</include>
 									</includes>
 								</source>
 							</sources>

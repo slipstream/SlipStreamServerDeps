@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>Libcloud-SixSq-tarball-rpm</artifactId>
-  <name>libcloud tarball packaged by SixSq (RPM)</name>
+  <name>SlipStreamServerDeps/libcloud/rpm</name>
 
   <packaging>pom</packaging>
 

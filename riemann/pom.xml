@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>SlipStream-Riemann</artifactId>
-  <name>SlipStream Riemann streams</name>
+  <name>SlipStreamServerDeps/riemann</name>
 
   <packaging>pom</packaging>
 

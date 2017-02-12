@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <artifactId>Hsqldb-SixSq-packaging</artifactId>
-  <name>HyperSQL packaged by SixSq</name>
+  <name>SlipStreamServerDeps/hsqldb</name>
   
   <packaging>pom</packaging>
   

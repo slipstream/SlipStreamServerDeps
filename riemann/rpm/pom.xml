@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>SlipStreamRiemann-rpm</artifactId>
-	<name>SlipStreamRiemann rpm</name>
+	<name>SlipStreamServerDeps/riemann/rpm</name>
 
 	<packaging>pom</packaging>
 

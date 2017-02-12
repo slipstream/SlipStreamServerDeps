@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>slipstream-server-nginx-conf</artifactId>
-  <name>SlipStream Server nginx conf (RPM)</name>
+  <name>SlipStreamServerDeps/nginxconf</name>
 
   <packaging>pom</packaging>
 

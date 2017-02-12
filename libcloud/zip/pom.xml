@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>Libcloud-SixSq-zip</artifactId>
-  <name>libcloud packaged by SixSq (ZIP)</name>
+  <name>SlipStreamServerDeps/zip</name>
 
   <packaging>pom</packaging>
 

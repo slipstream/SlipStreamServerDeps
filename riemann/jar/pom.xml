@@ -4,8 +4,7 @@
   <artifactId>SlipStreamRiemann-jar-dep</artifactId>
   <packaging>pom</packaging>
   <version>3.22-SNAPSHOT</version>
-  <name>SlipStreamRiemann-jar</name>
-  <description>SlipStream Riemann streams (JAR)</description>
+  <name>SlipStreamServerDeps/riemann/jar</name>
   <url>http://sixsq.com</url>
 
   <parent>

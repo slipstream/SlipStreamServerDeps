@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <artifactId>Phantomjs-SixSq-packaging</artifactId>
-  <name>Phantomjs packaged by SixSq</name>
+  <name>SlipStreamServerDeps/phantomjs</name>
   
   <packaging>pom</packaging>
   

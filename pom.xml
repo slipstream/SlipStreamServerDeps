@@ -4,8 +4,7 @@
 
   <artifactId>SlipStreamServerDeps</artifactId>
   <version>3.22-SNAPSHOT</version>
-  <name>SlipStream Server Dependencies</name>
-  <description>Packaging of SlipStream Server dependencies</description>
+  <name>SlipStreamServerDeps</name>
 
   <packaging>pom</packaging>
 

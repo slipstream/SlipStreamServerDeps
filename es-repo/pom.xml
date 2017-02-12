@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   
   <artifactId>Elasticsearch-2.0-repo</artifactId>
-  <name>Elasticsearch-2.0-repo</name>
+  <name>SlipStreamServerDeps/es-repo</name>
   
   <packaging>pom</packaging>
   

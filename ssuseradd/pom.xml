@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>slipstream-useradd</artifactId>
-	<name>SlipStream user (RPM)</name>
+	<name>SlipStreamServerDeps/ssuseradd</name>
 
 	<packaging>pom</packaging>
 

@@ -6,13 +6,11 @@ SNAPSHOT_DATE=${1:?"Snapshot date is required as an argument. List all snapshots
 set -e
 
 # Close indices before restoring
-curl -XPOST localhost:9200/resources-index/_close
+curl -fv -XPOST localhost:9200/resources-index/_close
 
-curl -XPOST http://localhost:9200/_snapshot/es_backup/es.snapshot.$SNAPSHOT_DATE/_restore
+curl -fv -XPOST http://localhost:9200/_snapshot/es_backup/es.snapshot.$SNAPSHOT_DATE/_restore
 
 # Reopen indices after restoring
-curl -XPOST http://localhost:9200/resources-index/_open
+curl -fv -XPOST http://localhost:9200/resources-index/_open
 
 echo "Restore done"
-
-

@@ -10,7 +10,7 @@ source $CONFIG
 
 BACKUP_TIMESTAMP=${BACKUP_TIMESTAMP:-"/var/log/slipstream-es-backup-timestamp"}
 
-# Note that snapshotname must be lowercase.
+# Note that snapshot name must be lowercase (required by ES).
 BACKUP_NAME=es.snapshot.$SS_HOSTNAME.$(date --utc "+%Y-%m-%dt%H%Mz")
 
 set +e

@@ -11,7 +11,7 @@ source $CONFIG
 BACKUP_TIMESTAMP=${BACKUP_TIMESTAMP:-"/var/log/slipstream-es-backup-timestamp"}
 
 # Note that snapshotname must be lowercase.
-BACKUP_NAME=es.snapshot.$SS_HOSTNAME.$(date --utc "+%Y-%m-%dT%H%MZ")
+BACKUP_NAME=es.snapshot.$SS_HOSTNAME.$(date --utc "+%Y-%m-%dt%H%Mz")
 
 set +e
 output=$(curl -sSf -XPUT http://localhost:9200/_snapshot/es_backup/$BACKUP_NAME?wait_for_completion=true 2>&1)

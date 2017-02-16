@@ -8,11 +8,14 @@ set -e
 # Close indices before restoring
 curl -XPOST localhost:9200/resources-index/_close
 
-curl -XPOST http://localhost:9200/_snapshot/es_backup/es.snapshot.$SNAPSHOT_DATE/_restore
+set +e
+curl -f -XPOST http://localhost:9200/_snapshot/es_backup/es.snapshot.$SNAPSHOT_DATE/_restore
+rc=$?
+if [[ $rc -eq 0 ]]; then result=successful; else result=failed; fi
+set -e
 
 # Reopen indices after restoring
 curl -XPOST http://localhost:9200/resources-index/_open
 
-echo "Restore done"
-
-
+echo "Restore $result."
+exit $rc

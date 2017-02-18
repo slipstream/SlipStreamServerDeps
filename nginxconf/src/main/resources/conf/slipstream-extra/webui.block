@@ -1,0 +1,7 @@
+    # web browser user interface
+    location /webui/ {
+        root /opt/slipstream/webui;
+        etag on;
+        expires 604800;
+        if_modified_since before;
+    }

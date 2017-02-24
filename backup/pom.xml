@@ -181,6 +181,12 @@
                     <include>slipstream-backup.conf</include>
                   </includes>
                 </source>
+                <source>
+                  <location>src/es/</location>
+                  <includes>
+                    <include>slipstream-es-backup.conf</include>
+                  </includes>
+                </source>
               </sources>
             </mapping>
 

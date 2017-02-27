@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   
-  <artifactId>Elasticsearch-2.0-repo</artifactId>
+  <artifactId>Elasticsearch-repo</artifactId>
   <name>SlipStreamServerDeps/es-repo</name>
   
   <packaging>pom</packaging>
@@ -25,7 +25,7 @@
         <configuration>
           <classifier>${package.os}</classifier>
           <release>${BUILD_NUMBER}.${package.os}</release>
-          <summary>Elasticsearch 2.x repository configuration</summary>
+          <summary>Elasticsearch repository configuration</summary>
           <name>slipstream-es-repo</name>
           <group>Applications/Engineering</group>
           <vendor>SixSq</vendor>
@@ -33,7 +33,7 @@
           <license>Apache 2.0</license>
           <url>http://sixsq.com</url>
           <needarch>noarch</needarch>
-          <description>Elasticsearch 2.x repository configuration</description>
+          <description>Elasticsearch repository configuration</description>
 
           <obsoletes>
             <obsolete>slipstream-es-repo-community</obsolete>

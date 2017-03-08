@@ -14,6 +14,10 @@ location /api {
     proxy_pass http://ssclj_servers;
     include conf.d/slipstream-proxy.params;
 }
+
+location /filter-rank {
+    proxy_pass http://prs_servers;
+    include conf.d/slipstream-proxy.params;
 }
 
 # Limit the number of connections and the request rate per client and per server

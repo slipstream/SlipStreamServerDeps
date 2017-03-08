@@ -12,7 +12,8 @@
 #    }
 #    limit_conn_zone $reports_limit_key zone=reportslimit:10k;
 
-location ~ ^/reports/ {
+location ~ ^/reports/ {    
+    proxy_pass http://slipstream_servers;
     include conf.d/slipstream-proxy.params;
     
     limit_conn reportslimit 10;

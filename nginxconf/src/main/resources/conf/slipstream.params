@@ -1,15 +1,19 @@
 # Common SlipStream configuration parameters (has to be included inside a server block)
 
 location / {
+    proxy_pass http://slipstream_servers;
     include conf.d/slipstream-proxy.params;
 }
 
 location /auth {
-    include conf.d/ssclj-proxy.params;
+    proxy_pass http://ssclj_servers;
+    include conf.d/slipstream-proxy.params;
 }
 
 location /api {
-    include conf.d/ssclj-proxy.params;
+    proxy_pass http://ssclj_servers;
+    include conf.d/slipstream-proxy.params;
+}
 }
 
 # Limit the number of connections and the request rate per client and per server

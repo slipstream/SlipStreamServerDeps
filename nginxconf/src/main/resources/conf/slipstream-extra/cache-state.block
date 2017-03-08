@@ -3,6 +3,7 @@
     #          this feature will not work.
     
     location ~ "/run/.*/ss:state" {
+         proxy_pass http://slipstream_servers;
          include conf.d/slipstream-proxy.params;
     
          proxy_cache zone_one;

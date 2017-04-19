@@ -1,19 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <artifactId>slipstream-graphite</artifactId>
   <name>SlipStreamServerDeps/graphite</name>
-  
+
   <packaging>pom</packaging>
-  
+
   <parent>
     <artifactId>SlipStreamServerDeps</artifactId>
     <groupId>com.sixsq.slipstream</groupId>
     <version>3.26-SNAPSHOT</version>
   </parent>
-  
+
   <build>
-    
+
     <plugins>
 
       <plugin>
@@ -46,7 +46,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <executions>
-	  
+
           <execution>
             <id>pyc</id>
             <goals>
@@ -107,7 +107,7 @@
           <description>
             SlipStream: graphite packaged by SixSq (used by metering).
           </description>
-          
+
           <requires>
             <require>gcc</require>
             <require>python-carbon</require>
@@ -116,9 +116,10 @@
             <require>python-devel</require>
             <require>python-pip</require>
             <require>python-virtualenv</require>
+            <require>collectd</require>
             <require>slipstream-useradd</require>
           </requires>
-          
+
           <mappings>
 
             <mapping>
@@ -154,7 +155,7 @@
                 </source>
               </sources>
             </mapping>
-            
+
             <mapping>
               <directory>/etc/</directory>
               <filemode>664</filemode>
@@ -168,7 +169,7 @@
                 </source>
               </sources>
             </mapping>
-            
+
             <mapping>
               <directory>/etc/rc.d/init.d</directory>
               <filemode>775</filemode>
@@ -180,7 +181,7 @@
                 </source>
               </sources>
             </mapping>
-            
+
             <mapping>
               <directory>/etc/sysconfig</directory>
               <directoryIncluded>false</directoryIncluded>
@@ -191,7 +192,7 @@
                 </source>
               </sources>
             </mapping>
-            
+
             <mapping>
               <directory>/etc/carbon</directory>
               <filemode>664</filemode>
@@ -209,7 +210,22 @@
                 </source>
               </sources>
             </mapping>
-            
+
+            <mapping>
+              <directory>/etc/collectd.d</directory>
+              <filemode>644</filemode>
+              <username>slipstream</username>
+              <groupname>slipstream</groupname>
+              <directoryIncluded>false</directoryIncluded>
+              <configuration>noreplace</configuration>
+              <sources>
+                <source>
+                  <location>collectd-graphite-ss.conf</location>
+                  <destination>graphite.conf</destination>
+                </source>
+              </sources>
+            </mapping>
+
           </mappings>
 
           <postinstallScriptlet>
@@ -232,9 +248,9 @@ chkconfig graphite-api on
 service graphite-api start
             </script>
           </postinstallScriptlet>
-          
+
         </configuration>
-        
+
         <executions>
           <execution>
             <id>attach-rpm</id>
@@ -244,11 +260,11 @@ service graphite-api start
             </goals>
           </execution>
         </executions>
-        
+
       </plugin>
-      
+
     </plugins>
-    
+
   </build>
-  
+
 </project>

@@ -18,7 +18,6 @@
   <modules>
     <module>hsqldb</module>
     <module>libcloud</module>
-    <module>phantomjs</module>
     <module>riemann</module>
   </modules>
 
@@ -36,6 +35,7 @@
         <module>ssuseradd</module>
         <module>graphite</module>
         <module>es-repo</module>
+        <module>phantomjs</module>
       </modules>
     </profile>
     <profile>

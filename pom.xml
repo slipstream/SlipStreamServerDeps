@@ -51,6 +51,7 @@
         <module>ssuseradd</module>
         <module>graphite</module>
         <module>es-repo</module>
+        <module>phantomjs</module>
       </modules>
     </profile>
   </profiles>

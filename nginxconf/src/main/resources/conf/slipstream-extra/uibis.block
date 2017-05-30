@@ -1,0 +1,17 @@
+
+    # web browser user interface (alternate version to
+    # allow old UI to use new pages)
+    #
+    # If the URL exists, then serve the file, otherwise
+    # use the base WebUI index file.  It is important to
+    # check the files first so that the CSS, JavaScript,
+    # images, etc. are all available.
+    #
+
+    location ~ /uibis {
+        root /opt/slipstream;
+        try_files $uri /uibis/index.html;
+        etag on;
+        expires 604800;
+        if_modified_since before;
+    }

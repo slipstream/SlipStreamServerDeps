@@ -35,6 +35,9 @@ include conf.d/slipstream-extra/static-content.block;
 # Serve web browser user interface as static content.
 include conf.d/slipstream-extra/webui.block;
 
+# Serve alternate web browser user interface as static content.
+include conf.d/slipstream-extra/uibis.block;
+
 # Increase the timeout for resources that may take time to complete.
 include conf.d/slipstream-extra/long-timeout.block;
 

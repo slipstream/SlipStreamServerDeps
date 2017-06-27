@@ -25,7 +25,9 @@
 
 (defn list-connectors
       []
-      (-> (client/get (str slipstream-endpoint "/api/service-offer") (cookie-store-authn))
+      (-> (client/get (str slipstream-endpoint
+                           "/api/service-offer?$filter=schema-org:state=%27ok%27%20or%20schema-org:state=%27nok%27")
+                      (cookie-store-authn))
           :body
           json->edn
           :serviceOffers))

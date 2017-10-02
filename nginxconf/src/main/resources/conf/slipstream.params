@@ -26,8 +26,8 @@ include conf.d/slipstream-extra/limits.block;
 # Enable compression & decompression
 include conf.d/slipstream-extra/compression.block;
 
-# Cache GETs of ss:state of all the runs.
-include conf.d/slipstream-extra/cache-state.block;
+# Cache some resources.
+include conf.d/slipstream-extra/cache.block;
 
 # Serve all static content directly by nginx.
 include conf.d/slipstream-extra/static-content.block;

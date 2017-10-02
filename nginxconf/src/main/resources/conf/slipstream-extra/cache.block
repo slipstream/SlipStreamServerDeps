@@ -1,0 +1,36 @@
+    # WARNING: If proxy_buffering is off (cf: conf.d/slipstream-proxy.params)
+    #          this feature will not work.
+    
+    location ~ "/run/[^/]+/ss:state$" {
+         proxy_pass http://slipstream_servers;
+         include conf.d/slipstream-proxy.params;
+
+         proxy_cache zone_one;
+         proxy_cache_valid any 15s;
+         proxy_cache_methods GET;
+         proxy_cache_key "$scheme$host$request_uri";
+         proxy_cache_lock on;
+    }
+
+    location ~ "/run/[^/]+/ss:abort$" {
+         proxy_pass http://slipstream_servers;
+         include conf.d/slipstream-proxy.params;
+
+         proxy_cache zone_one;
+         proxy_cache_valid any 30s;
+         proxy_cache_methods GET;
+         proxy_cache_key "$scheme$host$request_uri $http_cookie";
+         proxy_cache_lock on;
+    }
+
+    location ~ "/run/[^/]+/?$" {
+         proxy_pass http://slipstream_servers;
+         include conf.d/slipstream-proxy.params;
+
+         proxy_cache zone_one;
+         proxy_cache_valid any 30s;
+         proxy_cache_methods GET;
+         proxy_cache_key "$scheme$host$request_uri $http_cookie";
+         proxy_cache_lock on;
+    }
+

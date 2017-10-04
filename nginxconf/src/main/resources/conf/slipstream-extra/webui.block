@@ -1,16 +1,15 @@
+# web browser user interface
+#
+# If the URL exists, then serve the file, otherwise
+# use the base WebUI index file.  It is important to
+# check the files first so that the CSS, JavaScript,
+# images, etc. are all available.
+#
 
-    # web browser user interface
-    #
-    # If the URL exists, then serve the file, otherwise
-    # use the base WebUI index file.  It is important to
-    # check the files first so that the CSS, JavaScript,
-    # images, etc. are all available.
-    #
-
-    location ~ /webui {
-        root /opt/slipstream;
-        try_files $uri /webui/index.html;
-        etag on;
-        expires 604800;
-        if_modified_since before;
-    }
+location ~ /webui {
+    root /opt/slipstream;
+    try_files $uri /webui/index.html;
+    etag on;
+    expires 1d;
+    if_modified_since before;
+}

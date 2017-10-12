@@ -17,5 +17,6 @@ location ~ ^/reports/ {
     include conf.d/slipstream-proxy.params;
     
     limit_conn reportslimit 10;
+    limit_conn_status 429;
     client_max_body_size 5M;
 }

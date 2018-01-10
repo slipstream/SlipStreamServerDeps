@@ -13,13 +13,13 @@ pip install slipstream-client
 
 # install plugin to work around bug in standard check_http plugin
 cd /root
-curl -o . https://github.com/matteocorti/check_ssl_cert/releases/download/v1.60.0/check_ssl_cert-1.60.0.tar.gz
+curl -L -o check_ssl_cert-1.60.0.tar.gz https://github.com/matteocorti/check_ssl_cert/releases/download/v1.60.0/check_ssl_cert-1.60.0.tar.gz
 tar zxf check_ssl_cert-1.60.0.tar.gz
 cp check_ssl_cert-1.60.0/check_ssl_cert /usr/lib64/nagios/plugins/
 
 # disable SELinux
-setenforce 0
-sed s/SELINUX=enforcing/SELINUX=permissive/g -i /etc/selinux/config
+#setenforce 0
+#sed s/SELINUX=enforcing/SELINUX=permissive/g -i /etc/selinux/config
 
 # enable services
 systemctl enable nagios

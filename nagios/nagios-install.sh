@@ -4,7 +4,9 @@ yum install -y epel-release
 
 yum clean all
 
-yum install -y git wget ntp nagios nagios-plugins-all nagios-plugins-nrpe httpd php
+yum install -y git wget python-pip \
+    ntp nagios nagios-plugins-all nagios-plugins-nrpe httpd php \
+    perl-libwww-perl perl-Net-SSLeay perl-Crypt-SSLeay
 
 # disable SELinux
 setenforce 0
@@ -19,6 +21,9 @@ systemctl enable ntpd
 cd /root
 git clone https://github.com/slipstream/SlipStreamServerDeps.git
 command cp -R --remove-destination /root/SlipStreamServerDeps/nagios/etc/nagios/* /etc/nagios/
+
+command cp --remove-destination /root/SlipStreamServerDeps/nagios/usr/lib64/nagios/plugins/* /usr/lib64/nagios/plugins/
+command cp --remove-destination /root/SlipStreamServerDeps/nagios/usr/bin/* /usr/bin/
 
 # fix ownership and permissions
 chown -R root:nagios /etc/nagios
@@ -40,4 +45,7 @@ echo 'MANUAL STEP IS REQUIRED
 # Edit /usr/local/bin/slack_nagios.pl according to 
 # https://sixsq.slack.com/services/B026T5CM7
 #my $opt_domain = "sixsq.slack.com"; # Your team domain
-#my $opt_token = "set me""; # The token from your Nagios services page'
+#my $opt_token = "set me""; # The token from your Nagios services page
+
+# Update the files /etc/nagios/private/resource.cfg with the 
+# required credentials for the checks.'

@@ -1,12 +1,14 @@
 #!/bin/sh
 
+# install all required packages (git, slack, nagios, ...)
 yum install -y epel-release
-
 yum clean all
-
 yum install -y git wget python-pip \
-    ntp nagios nagios-plugins-all nagios-plugins-nrpe httpd php \
+    ntp nagios nagios-plugins-all nagios-plugins-nrpe httpd php jq \
     perl-libwww-perl perl-Net-SSLeay perl-Crypt-SSLeay
+
+# install SlipStream client
+pip install slipstream-client
 
 # disable SELinux
 setenforce 0

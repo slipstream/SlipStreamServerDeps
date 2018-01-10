@@ -24,25 +24,16 @@ if [ -z "$USR" ] || [ -z "$PASS" ]; then
     exit 3
 fi
 
-function post-data {
-cat <<EOF
-{
-    "sessionTemplate": {
-        "href": "session-template/internal",
-        "username" : "$USR",
-        "password" :  "$PASS"
-    }
-}
-EOF
-}
-
-curl --silent --cookie-jar ~/cookies -b ~/cookies -sS --insecure https://nuv.la/api/session \
-        -D - \
-        -o /dev/null \
+# log into the server
+curl --silent --cookie-jar ~/cookies -b ~/cookies -sS \
+        https://nuv.la/api/session \
+	-D - \
+	-o /dev/null \
         -XPOST \
-        -H content-type:application/json \
-        -d "$(post-data)" > /dev/null
-
+        -H content-type:application/x-www-form-urlencoded \
+        -d href=session-template/internal \
+        -d username="$USR" \
+	-d password="$PASS" > /dev/null
 
 json=`curl --silent --cookie-jar ~/cookies -b ~/cookies -sS 'https://nuv.la/api/metering?$aggregation=min:snapshot-time&$aggregation=max:snapshot-time&$last=0'`
 

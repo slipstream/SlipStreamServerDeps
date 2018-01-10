@@ -1,0 +1,18 @@
+#!/bin/bash
+
+username=$1
+password=$2
+endpoint=$3
+: ${endpoint:='https://nuv.la'}
+
+output=$(ss-login -u "${username}" -p "${password}" --endpoint "${endpoint}" 2>&1)
+
+if [[ $? -eq 0 ]]; then
+  echo "Ok"
+  exit 0
+else
+  echo -n "Failed: "; 
+  echo "${output}" | tail -n 1
+  exit 2
+fi
+

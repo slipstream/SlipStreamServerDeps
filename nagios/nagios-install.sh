@@ -3,12 +3,19 @@
 # install all required packages (git, slack, nagios, ...)
 yum install -y epel-release
 yum clean all
-yum install -y git wget python-pip \
-    ntp nagios nagios-plugins-all nagios-plugins-nrpe httpd php jq \
+yum install -y git wget python-pip ntp \
+    nagios nagios-plugins-all nagios-plugins-nrpe nagios-selinux \
+    httpd php jq \
     perl-libwww-perl perl-Net-SSLeay perl-Crypt-SSLeay
 
 # install SlipStream client
 pip install slipstream-client
+
+# install plugin to work around bug in standard check_http plugin
+cd /root
+curl -o . https://github.com/matteocorti/check_ssl_cert/releases/download/v1.60.0/check_ssl_cert-1.60.0.tar.gz
+tar zxf check_ssl_cert-1.60.0.tar.gz
+cp check_ssl_cert-1.60.0/check_ssl_cert /usr/lib64/nagios/plugins/
 
 # disable SELinux
 setenforce 0
@@ -38,7 +45,6 @@ systemctl start nagios
 systemctl start httpd
 
 # Install Slack notifications
-yum install -y perl-libwww-perl perl-Net-SSLeay perl-Crypt-SSLeay
 wget --no-check-certificate -O /usr/local/bin/slack_nagios.pl \
      https://raw.github.com/tinyspeck/services-examples/master/nagios.pl
 chmod 755 /usr/local/bin/slack_nagios.pl

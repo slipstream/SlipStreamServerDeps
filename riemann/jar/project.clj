@@ -1,16 +1,20 @@
 (def +version+ "3.45-SNAPSHOT")
 
-(defproject
-  com.sixsq.slipstream/SlipStreamRiemann-jar
-  "3.45-SNAPSHOT"
-  :license
-  {"commercial" "http://sixsq.com"}
+(defproject com.sixsq.slipstream/SlipStreamRiemann-jar "3.45-SNAPSHOT"
+
+  :description "Riemann Server for Autoscaling"
+  :url "https://github.com/slipstream/SlipStreamServerDeps"
+
+  :license {"Apache 2.0" "http://www.apache.org/licenses/LICENSE-2.0.txt"}
 
   :plugins [[lein-parent "0.3.2"]
             [lein-localrepo "0.5.4"]]
 
   :parent-project {:coords  [com.sixsq.slipstream/parent "3.45-SNAPSHOT"]
-                   :inherit [:min-lein-version :managed-dependencies :repositories :deploy-repositories]}
+                   :inherit [:min-lein-version
+                             :managed-dependencies
+                             :repositories
+                             :deploy-repositories]}
 
   :pom-location "target/"
 

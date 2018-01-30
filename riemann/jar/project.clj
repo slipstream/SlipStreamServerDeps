@@ -3,9 +3,12 @@
 (defproject com.sixsq.slipstream/SlipStreamRiemann-jar "3.45-SNAPSHOT"
 
   :description "Riemann Server for Autoscaling"
+
   :url "https://github.com/slipstream/SlipStreamServerDeps"
 
-  :license {"Apache 2.0" "http://www.apache.org/licenses/LICENSE-2.0.txt"}
+  :license {:name "Apache 2.0"
+            :url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            :distribution :repo}
 
   :plugins [[lein-parent "0.3.2"]
             [lein-localrepo "0.5.4"]]

@@ -1,7 +1,9 @@
     # Increase the timeout for resources that may take time to complete
-    location ~ ^/run/[^/]+/?$ {
-        proxy_pass http://slipstream_servers;
-        include conf.d/slipstream-proxy.params;
-        
-        proxy_read_timeout 900;
-    }
+
+    # Defined in cache.block
+    #location ~ ^/run/[^/]+/?$ {
+    #   proxy_pass http://slipstream_servers;
+    #   include conf.d/slipstream-proxy.params;
+    #   
+    #   proxy_read_timeout 900;
+    #}

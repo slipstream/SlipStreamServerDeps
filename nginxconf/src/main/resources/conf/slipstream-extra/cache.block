@@ -6,7 +6,7 @@ location ~ "/run/[^/]+/ss:state$" {
      include conf.d/slipstream-proxy.params;
 
      proxy_cache zone_one;
-     proxy_cache_valid any 15s;
+     proxy_cache_valid 200 15s;
      proxy_cache_methods GET;
      proxy_cache_key "$scheme$host$request_uri";
      proxy_cache_lock on;
@@ -17,7 +17,8 @@ location ~ "/run/[^/]+/ss:abort$" {
      include conf.d/slipstream-proxy.params;
 
      proxy_cache zone_one;
-     proxy_cache_valid any 30s;
+     proxy_cache_valid 200 30s;
+     proxy_cache_valid 412 15s;
      proxy_cache_methods GET;
      proxy_cache_bypass $cache_bypass;
      proxy_cache_key "$scheme$host$request_uri $http_ss-cache-key";
@@ -29,7 +30,7 @@ location ~ "/run/[^/]+/?$" {
      include conf.d/slipstream-proxy.params;
 
      proxy_cache zone_one;
-     proxy_cache_valid any 40s;
+     proxy_cache_valid 200 40s;
      proxy_cache_methods GET;
      proxy_cache_bypass $cache_bypass;
      proxy_cache_key "$scheme$host$request_uri $http_ss-cache-key";
@@ -46,7 +47,7 @@ location ~ "/run$" {
      include conf.d/slipstream-proxy.params;
 
      proxy_cache zone_one;
-     proxy_cache_valid any 30s;
+     proxy_cache_valid 200 30s;
      proxy_cache_methods GET;
      proxy_cache_bypass $cache_bypass;
      proxy_cache_key "$scheme$host$request_uri $http_ss-cache-key";

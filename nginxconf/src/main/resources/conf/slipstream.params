@@ -35,9 +35,6 @@ include conf.d/slipstream-extra/static-content.block;
 # Increase the timeout for resources that may take time to complete.
 include conf.d/slipstream-extra/long-timeout.block;
 
-# Limit the number of reports that can be sent simultaneously.
-include conf.d/slipstream-extra/limit-reports.block;
-
 # Serve custom error pages and allow to set the server in maintenance mode.
 include conf.d/slipstream-extra/maintenance-mode-error-pages.block;
 

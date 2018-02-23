@@ -1,11 +1,6 @@
 # WARNING: If proxy_buffering is off (cf: conf.d/slipstream-proxy.params)
 #          this feature will not work.
 
-map $http_ss-cache-key $cache_bypass {
-    ""                 "do-not-cache";
-    default            "";
-}
-
 location ~ "/run/[^/]+/ss:state$" {
      proxy_pass http://slipstream_servers;
      include conf.d/slipstream-proxy.params;
@@ -47,18 +42,6 @@ location ~ "/run/[^/]+/?$" {
 
 
 location ~ "/run$" {
-     proxy_pass http://slipstream_servers;
-     include conf.d/slipstream-proxy.params;
-
-     proxy_cache zone_one;
-     proxy_cache_valid any 30s;
-     proxy_cache_methods GET;
-     proxy_cache_bypass $cache_bypass;
-     proxy_cache_key "$scheme$host$request_uri $http_ss-cache-key";
-     proxy_cache_lock on;
-}
-
-location ~ "/vms$" {
      proxy_pass http://slipstream_servers;
      include conf.d/slipstream-proxy.params;
 

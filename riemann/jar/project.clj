@@ -1,6 +1,6 @@
-(def +version+ "3.46")
+(def +version+ "3.47-SNAPSHOT")
 
-(defproject com.sixsq.slipstream/SlipStreamRiemann-jar "3.46"
+(defproject com.sixsq.slipstream/SlipStreamRiemann-jar "3.47-SNAPSHOT"
 
   :description "Riemann Server for Autoscaling"
 
@@ -13,7 +13,7 @@
   :plugins [[lein-parent "0.3.2"]
             [lein-localrepo "0.5.4"]]
 
-  :parent-project {:coords  [com.sixsq.slipstream/parent "3.46"]
+  :parent-project {:coords  [com.sixsq.slipstream/parent "3.47-SNAPSHOT"]
                    :inherit [:min-lein-version
                              :managed-dependencies
                              :repositories

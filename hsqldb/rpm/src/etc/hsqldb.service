@@ -1,7 +1,7 @@
 [Unit]
 Description=Hsqldb Service
 After=syslog.target network.target
-Before=ssclj.service slipstream.service
+Before=cimi.service slipstream.service
 
 [Service]
 RemainAfterExit=yes

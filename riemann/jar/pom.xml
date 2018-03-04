@@ -15,16 +15,6 @@
     <version>3.47-SNAPSHOT</version>
   </parent>
 
-
-  <dependencies>
-    <dependency>
-      <groupId>com.sixsq.slipstream</groupId>
-      <artifactId>parent</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
 

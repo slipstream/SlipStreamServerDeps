@@ -30,7 +30,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: mvn -s .circleci/settings.xml dependency:go-offline
+      - run: mvn -s .circleci/settings.xml --quiet --batch-mode dependency:go-offline
+
+      - run: (cd riemann; lein deps)
 
       - save_cache:
           paths:
@@ -38,4 +40,4 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
         
       # deploy artifacts
-      - run: mvn -s .circleci/settings.xml clean deploy
+      - run: mvn -s .circleci/settings.xml --quiet --batch-mode clean deploy

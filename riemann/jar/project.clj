@@ -29,6 +29,7 @@
   :dependencies
   [[org.clojure/clojure]
    [clj-http]
+   [riddley] ; added to workaround fix for other dependencies issues
    [environ]
    [org.clojure/data.json]]
 

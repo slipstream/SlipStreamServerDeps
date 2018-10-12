@@ -1,6 +1,6 @@
-(def +version+ "3.61")
+(def +version+ "3.62-SNAPSHOT")
 
-(defproject com.sixsq.slipstream/SlipStreamRiemann-jar "3.61"
+(defproject com.sixsq.slipstream/SlipStreamRiemann-jar "3.62-SNAPSHOT"
 
   :description "Riemann Server for Autoscaling"
 
